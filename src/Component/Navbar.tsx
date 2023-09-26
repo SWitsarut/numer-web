@@ -7,7 +7,7 @@ function Navbar({ navigate }: { navigate: NavigateFunction }) {
 	const currentPath = Location.pathname;
 	return (
 		<AppBar position="static">
-			<Toolbar sx={{ backgroundColor: "white", color: "black" }}>
+			<Toolbar>
 				<IconButton
 					onClick={() => navigate(-1)}
 					edge="start"

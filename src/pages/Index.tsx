@@ -6,14 +6,24 @@ import { IndexCardProps } from "../type and interface/type";
 function Index({ navigate }: { navigate: NavigateFunction }) {
 	const roe: IndexCardProps[] = [
 		{
-			name: "Bisection",
-			path: "/bisection",
-			description: "root of equation by bisection",
+			name: "Graphical",
+			path: "/graphical",
+			description: "root of equation by graphical",
 		},
 		{
 			name: "Bisection",
 			path: "/bisection",
 			description: "root of equation by bisection",
+		},
+		{
+			name: "One Point Iteration",
+			path: "/one-point",
+			description: "root of equation by one point iteration",
+		},
+		{
+			name: "Newton Raphson",
+			path: "/newton-raphson",
+			description: "root of equation by one point newton raphson",
 		},
 	];
 

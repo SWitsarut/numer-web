@@ -99,13 +99,13 @@ class Bisection extends Component {
 					<TableContainer component={Paper}>
 						<Table sx={{ minWidth: 650 }} aria-label="simple table">
 							<TableHead>
-								<TableRow sx={{ backgroundColor: "darkgray" }}>
+								<TableRow>
 									<TableCell>Iteration</TableCell>
-									<TableCell align="center">XL</TableCell>
+									{/* <TableCell align="center">XL</TableCell> */}
 									<TableCell align="center">f(XL)</TableCell>
 									<TableCell align="center">XM</TableCell>
 									<TableCell align="center">f(XM)</TableCell>
-									<TableCell align="center">XR</TableCell>
+									{/* <TableCell align="center">XR</TableCell> */}
 									<TableCell align="center">f(XR)</TableCell>
 									<TableCell align="center">Error</TableCell>
 								</TableRow>
@@ -122,11 +122,11 @@ class Bisection extends Component {
 											<TableCell component="th" scope="row">
 												{data.iteration}
 											</TableCell>
-											<TableCell align="center">{data.xl}</TableCell>
+											{/* <TableCell align="center">{data.xl}</TableCell> */}
 											<TableCell align="center">{data.fxl}</TableCell>
 											<TableCell align="center">{data.xm}</TableCell>
 											<TableCell align="center">{data.fxm}</TableCell>
-											<TableCell align="center">{data.xr}</TableCell>
+											{/* <TableCell align="center">{data.xr}</TableCell> */}
 											<TableCell align="center">{data.fxr}</TableCell>
 											<TableCell align="center">{data.error}</TableCell>
 										</TableRow>
@@ -135,7 +135,6 @@ class Bisection extends Component {
 							</TableBody>
 						</Table>
 					</TableContainer>
-					;
 				</Stack>
 			</Stack>
 		);
