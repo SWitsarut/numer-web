@@ -4,11 +4,12 @@ import Page404 from "./pages/Page404";
 import Navbar from "./Component/Navbar";
 import Box from "@mui/material/Box";
 import { Paper } from "@mui/material";
-
+ 
 import Graphical from "./pages/root/Graphical";
 import Bisection from "./pages/root/Bisection";
 import OnePoint from "./pages/root/OnePoint";
 import NewtomRaphson from "./pages/root/NewtonRaphson";
+
 function App() {
 	const navigate: NavigateFunction = useNavigate();
 	return (
@@ -30,4 +31,5 @@ function App() {
 	);
 }
 
+export {};
 export default App;

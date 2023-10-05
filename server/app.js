@@ -13,14 +13,15 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.post("/bisection", async (req, res) => {
-    const { question, xl, xr } = req.body;
-    const response = await Bisection(question, Number(xl), Number(xr))
-    res.status(200).json(response);
-})
 app.post("/graphical", async (req, res) => {
     const { question, xl, xr } = req.body;
     const response = await Graphical(question, Number(xl), Number(xr))
+    res.status(200).json(response);
+})
+
+app.post("/bisection", async (req, res) => {
+    const { question, xl, xr } = req.body;
+    const response = await Bisection(question, Number(xl), Number(xr))
     res.status(200).json(response);
 })
 

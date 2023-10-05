@@ -65,7 +65,7 @@ class Bisection extends Component {
 				xl,
 				xr,
 			});
-
+			
 			this.setState({ resData: response.data });
 		} catch (error) {
 			console.error("Error:", error);
