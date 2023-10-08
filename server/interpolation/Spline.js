@@ -1,6 +1,5 @@
 import { gauss_jordan, gaussJordan } from '../AXB/gauss-jordan.js'
 import { cramer } from "../AXB/Cramer.js"
-import { inverse } from '../root of equation/inversion.js';
 
 let xy = [{ x: 2, y: 9.5 }, { x: 4, y: 8.0 }, { x: 6, y: 10.5 }, { x: 8, y: 39.5 }, { x: 10, y: 72.5 }];
 
@@ -32,7 +31,7 @@ export function QuadraticSpline(xy, x) {
         [Math.pow(point[i + 1].x, 2), point[i + 1].x, 1],
         [0, 0, 0, point[i + 2].x ** 2, point[i + 2].x, 1],
         [0, 0, 0, point[i + 1].x ** 2, point[i + 1].x, 1],
-        [0, 0, 0, 0, 0, 0, point[i + 2].x ** 2, point[i + 1].x, 1],
+        [0, 0, 0, 0, 0, 0, point[i + 2].x ** 2, point[i + 2].x, 1],
         [Math.pow(point[i].x, 2), point[i].x, 1],
         [0, 0, 0, 0, 0, 0, point[i + 3].x ** 2, point[i + 3].x, 1],
         [2 * point[i + 1].x, 1, 0, -2 * point[i + 2].x, -1],
@@ -45,7 +44,7 @@ export function QuadraticSpline(xy, x) {
         point[i + 1].y,
         point[i + 2].y,
         point[i + 2].y,
-        point[i].y,
+        point[i].y, 
         point[i + 3].y,
         1e-5,
         1e-5,
@@ -63,10 +62,7 @@ export function QuadraticSpline(xy, x) {
         }
     }
 
-    const abc = inverse(A, B);
-    console.log("A", A)
-    console.log("B", B)
-    // console.log(abc);
+    const abc = gauss_jordan(A, B);
     let inRange;
     for (inRange = 0; inRange < 3; inRange++) {
         if (x >= point[i + inRange].x && x <= point[i + inRange + 1].x) {
@@ -74,14 +70,10 @@ export function QuadraticSpline(xy, x) {
         }
     }
 
-    // console.log(inRange)
+    console.log(abc)
 
-    const fx1 = abc[inRange] * x ** 2 + abc[inRange + 1] * x + abc[inRange + 2];
-    // console.log(abc)
-    return fx1;
-
-
-
+    const fx = abc[3 * inRange + 0] * x ** 2 + abc[3 * inRange + 1] * x + abc[3 * inRange + 2];
+    return fx;
 }
-console.log("ans", QuadraticSpline(xy, 4.5));
+console.log("ans", QuadraticSpline(xy, 8.5));
 // QuadraticSpline(xy, 8)

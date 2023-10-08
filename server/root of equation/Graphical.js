@@ -15,7 +15,6 @@ export default function Graphical(question, xl, xr) {
 	let iteration = 0;
 
 	let startLength;
-	console.log(fn.evaluate({ x: 2 }))
 	for (let i = start; i <= max; i += 1) {
 		console.log(i)
 		iteration++;
@@ -25,6 +24,7 @@ export default function Graphical(question, xl, xr) {
 			break;
 		}
 	}
+	
 	let sloved = false;
 	let ans;
 	for (let i = startLength; i <= startLength + 1; i += 0.00001) {

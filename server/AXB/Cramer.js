@@ -40,7 +40,7 @@ function replaceColumn(matrix, vector, col) {
     return tempMatrix;
 }
 
-export function cramer(matrix, vector) {
+export function Cramer(matrix, vector) {
     const originalDet = getDeterminant(matrix);
     const solutions = [];
 

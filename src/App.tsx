@@ -4,11 +4,12 @@ import Page404 from "./pages/Page404";
 import Navbar from "./Component/Navbar";
 import Box from "@mui/material/Box";
 import { Paper } from "@mui/material";
- 
+
 import Graphical from "./pages/root/Graphical";
 import Bisection from "./pages/root/Bisection";
 import OnePoint from "./pages/root/OnePoint";
 import NewtomRaphson from "./pages/root/NewtonRaphson";
+import Test from "./pages/Test";
 
 function App() {
 	const navigate: NavigateFunction = useNavigate();
@@ -23,7 +24,7 @@ function App() {
 						<Route path="/graphical" element={<Graphical />} />
 						<Route path="/one-point" element={<OnePoint />} />
 						<Route path="/newton-raphson" element={<NewtomRaphson />} />
-						<Route path="*" element={<Page404 />} />
+						<Route path="*" element={<Test />} />
 					</Routes>
 				</Paper>
 			</Box>

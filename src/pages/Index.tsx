@@ -25,6 +25,11 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			path: "/newton-raphson",
 			description: "root of equation by one point newton raphson",
 		},
+		{
+			name: "Test",
+			path: "/test",
+			description: "test",
+		},
 	];
 
 	return (

@@ -1,5 +1,6 @@
 import React, { Component, RefObject } from "react";
 import axios from "axios";
+import Plot from "react-plotly.js";
 
 import {
 	Button,
@@ -13,6 +14,7 @@ import {
 	TableRow,
 	TextField,
 } from "@mui/material";
+import { EvalFunction, compile } from "mathjs";
 interface iterationData {
 	iteration: number;
 	xl: number;
@@ -29,12 +31,13 @@ interface BisectionRes {
 	iterationData: iterationData[];
 }
 
-class Bisection extends Component {
+class Bisection extends Component<NonNullable<unknown>> {
 	xl: RefObject<HTMLInputElement> = React.createRef();
 	question: RefObject<HTMLInputElement> = React.createRef();
 	xr: RefObject<HTMLInputElement> = React.createRef();
-
-	constructor(props: any) {
+	GraphX: number[] = [];
+	GraphY: number[] = [];
+	constructor(props: NonNullable<unknown>) {
 		super(props);
 
 		this.state = {
@@ -48,10 +51,10 @@ class Bisection extends Component {
 		}
 	}
 
-	getData = async (): Promise<void> => {
-		const question = this.question.current?.value || "";
-		const xl = parseFloat(this.xl.current?.value || "0");
-		const xr = parseFloat(this.xr.current?.value || "0");
+	getData = async (question: string, xl: number, xr: number): Promise<void> => {
+		// const question = this.question.current?.value || "";
+		// const xl = parseFloat(this.xl.current?.value || "0");
+		// const xr = parseFloat(this.xr.current?.value || "0");
 
 		if (!question || isNaN(xl) || isNaN(xr)) {
 			// Input validation
@@ -65,7 +68,7 @@ class Bisection extends Component {
 				xl,
 				xr,
 			});
-			
+
 			this.setState({ resData: response.data });
 		} catch (error) {
 			console.error("Error:", error);
@@ -82,7 +85,15 @@ class Bisection extends Component {
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
-						this.getData();
+						const question = this.question.current?.value || "";
+						const xl = parseFloat(this.xl.current?.value || "0");
+						const xr = parseFloat(this.xr.current?.value || "0");
+						const fn: EvalFunction = compile(question);
+						this.getData(question, xl, xr);
+						for (let i = xl; i < xr; i += 0.1) {
+							this.GraphX.push(i);
+							this.GraphY.push(fn.evaluate({ x: i }));
+						}
 					}}
 				>
 					<Stack sx={{ gap: 2 }}>
@@ -95,6 +106,39 @@ class Bisection extends Component {
 					</Stack>
 				</form>
 				<Stack spacing={2}>
+					<Plot
+						data={[
+							{
+								name: "graph",
+								x: this.GraphX,
+								y: this.GraphY,
+								marker: { color: "red" },
+								showlegend: false,
+							},
+							{
+								name: "answer",
+								type: "scatter",
+								mode: "lines",
+								x: [resData?.data, resData?.data], // This creates a vertical line at y = 0
+								y: [Math.min(...this.GraphY) - 5, Math.max(...this.GraphY) + 5],
+								line: { color: "blue" }, // You can customize the line style
+								showlegend: false,
+							},
+							{
+								name: "answer",
+								mode: "markers",
+								x: [resData?.data], // Display a marker at the root
+								y: [0], // At y = 0
+								marker: {
+									symbol: "x", // Use 'x' symbol for the marker
+									size: 10,
+									color: "green",
+								}, // Customize the color of the marker
+							},
+						]}
+						layout={{ height: 500 }}
+					/>
+
 					<h2>{resData?.data}</h2>
 					<TableContainer component={Paper}>
 						<Table sx={{ minWidth: 650 }} aria-label="simple table">

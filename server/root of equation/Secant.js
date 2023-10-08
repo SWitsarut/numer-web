@@ -1,17 +1,23 @@
-const fn = (x) => {
-    return Math.pow(x, 2) - 7;
-};
-let xi;
-let xi_1 = 1;
-let xi_2 = 7;
-let iteration = 0;
-const epsilon = 0.000001;
-do {
-    xi = xi_1;
-    xi_1 = xi_2;
-    xi_2 = xi - (fn(xi) * (xi - xi_1)) / (fn(xi) - fn(xi_1));
-    iteration++;
-    console.log({ x: xi_2, iteration });
-} while (!(Math.abs((xi_2 - xi_1) / xi_2) * 100 < epsilon));
+import { compile } from "mathjs";
 
-console.log({ x: xi_2, iteration });    
+export default function Secant(question, x1, x2) {
+
+    const fn = compile(question);
+    let xi;
+    let xi_1 = x1;
+    let xi_2 = x2;
+    let iteration = 0;
+    const epsilon = 0.000001;
+    const iterationData = [];
+    do {
+        xi = xi_1;
+        xi_1 = xi_2;
+        xi_2 = xi - (fn.evaluate({ x: xi }) * (xi - xi_1)) / (fn.evaluate({ x: xi }) - fn.evaluate({ x: xi_1 }));
+        iteration++;
+        const iterData = { iteration, xi, xi_1, xi_2 }
+        iterationData.push(iterData);
+    } while (!(Math.abs((xi_2 - xi_1) / xi_2) * 100 < epsilon));
+
+    // console.log({ x: xi_2, iteration });
+    return { data: xi_2, iterationData };
+}
