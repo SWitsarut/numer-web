@@ -10,6 +10,7 @@ import Bisection from "./pages/root/Bisection";
 import OnePoint from "./pages/root/OnePoint";
 import NewtomRaphson from "./pages/root/NewtonRaphson";
 import Test from "./pages/Test";
+import Secant from "./pages/root/Secant";
 
 function App() {
 	const navigate: NavigateFunction = useNavigate();
@@ -24,6 +25,7 @@ function App() {
 						<Route path="/graphical" element={<Graphical />} />
 						<Route path="/one-point" element={<OnePoint />} />
 						<Route path="/newton-raphson" element={<NewtomRaphson />} />
+						<Route path="/secant" element={<Secant />} />
 						<Route path="*" element={<Test />} />
 					</Routes>
 				</Paper>

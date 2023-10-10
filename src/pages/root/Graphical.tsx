@@ -3,18 +3,10 @@ import axios from "axios";
 import { Button, Stack, TextField } from "@mui/material";
 import Plot from "react-plotly.js";
 import { compile } from "mathjs";
-type iterationData = {
-	iteration?: number;
-	x: number;
-	y: number;
-};
-
-type GraphicalRes = {
-	data: number;
-	iterationData: iterationData[];
-};
+import { GraphicalRes } from "../../type and interface/type";
 
 function Graphical() {
+	document.title = "Graphical";
 	const [answerState, setAnwerState] = useState<GraphicalRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 

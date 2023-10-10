@@ -3,6 +3,8 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import apiTracker from "./Middle ware/apiTracker.js";
 import requestTimeout from "./Middle ware/requestTimeOut.js";
+import chalk from "chalk";
+
 
 import Bisection from "./root of equation/Bisection.js";
 import Graphical from "./root of equation/Graphical.js";
@@ -11,6 +13,8 @@ import newtonRaphson from "./root of equation/newton-raphson.js";
 import Secant from "./root of equation/Secant.js";
 import { Cramer } from "./AXB/Cramer.js";
 import { gauss_jordan } from "./AXB/gauss-jordan.js";
+import { gauss } from "./AXB/gauss.js";
+import requestTimeTracker from "./Middle ware/requestTimeTracker.js";
 
 
 const app = express();
@@ -19,11 +23,11 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(apiTracker);
+app.use(requestTimeTracker)
 app.use(requestTimeout(3000));
 
 app.post("/graphical", async (req, res) => {
     const { question, xl, xr } = req.body;
-    console.log("hi")
     const response = await Graphical(question, Number(xl), Number(xr))
     res.status(200).json(response);
 })
@@ -47,8 +51,8 @@ app.post("/newton-raphson", async (req, res) => {
 })
 
 app.post("/secant", async (req, res) => {
-    const { question, x1, x2 } = req.body;
-    const response = await Secant(question, Number(x1), Number(x2));
+    const { question, x0, x1 } = req.body;
+    const response = await Secant(question, Number(x0), Number(x1));
     res.status(200).json(response);
 })
 
@@ -56,6 +60,12 @@ app.post("/secant", async (req, res) => {
 app.post("/cramer", async (req, res) => {
     const { A, B } = req.body;
     const x = await Cramer(A, B);
+    res.status(200).json(x);
+})
+
+app.post("/gauss", async (req, res) => {
+    const { A, B } = req.body;
+    const x = await gauss(A, B);
     res.status(200).json(x);
 })
 
@@ -74,5 +84,5 @@ app.post("/inversion", async (req, res) => {
 
 
 app.listen(8080, () => {
-    console.log("Server is running at http://localhost:8080");
-})
+    console.log(chalk.yellow.bold('Server ') + chalk.bold.green("is running ") + chalk.blue.bold('at http://localhost:8080'));
+});

@@ -4,6 +4,7 @@ import HubCard from "../Component/HubCard";
 import { IndexCardProps } from "../type and interface/type";
 
 function Index({ navigate }: { navigate: NavigateFunction }) {
+	document.title = "Index";
 	const roe: IndexCardProps[] = [
 		{
 			name: "Graphical",
@@ -24,6 +25,11 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			name: "Newton Raphson",
 			path: "/newton-raphson",
 			description: "root of equation by one point newton raphson",
+		},
+		{
+			name: "Secant",
+			path: "/secant",
+			description: "root of equation by secant method",
 		},
 		{
 			name: "Test",

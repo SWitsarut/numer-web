@@ -78,7 +78,7 @@ class Bisection extends Component<NonNullable<unknown>> {
 
 	render() {
 		const { resData } = this.state as { resData: BisectionRes };
-
+		document.title = "Bisection";
 		return (
 			<Stack sx={{ gap: 2 }}>
 				<h2>Bisection</h2>

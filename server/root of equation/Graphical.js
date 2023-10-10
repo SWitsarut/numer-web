@@ -1,7 +1,6 @@
 import { compile } from "mathjs";
 
 export default function Graphical(question, xl, xr) {
-	console.log("hi")
 	let fn;
 	try {
 		fn = compile(question);

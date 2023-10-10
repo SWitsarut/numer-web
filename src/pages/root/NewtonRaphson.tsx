@@ -25,6 +25,7 @@ type OnePointRes = {
 };
 
 function NewtomRaphson() {
+	document.title = "newton-raphson"
 	const [answerState, setAnwerState] = useState<OnePointRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 

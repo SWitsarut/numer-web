@@ -25,6 +25,7 @@ type OnePointRes = {
 };
 
 function OnePoint() {
+	document.title = "one point iteration"
 	const [answerState, setAnwerState] = useState<OnePointRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 
