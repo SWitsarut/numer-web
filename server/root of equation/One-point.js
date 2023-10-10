@@ -7,7 +7,6 @@ export default function OnePoint(question, x0) {
 	// 7+x = x^^2+x
 	let xi;
 	let xi_1 = x0;
-	console.log(x0, question);
 	let iteration = 0;
 	const epsilon = 0.000001;
 	const iterationData = [];
