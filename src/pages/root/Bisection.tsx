@@ -133,7 +133,8 @@ class Bisection extends Component<NonNullable<unknown>> {
 									symbol: "x", // Use 'x' symbol for the marker
 									size: 10,
 									color: "green",
-								}, // Customize the color of the marker
+								},
+								showlegend: false,
 							},
 						]}
 						layout={{ height: 500 }}

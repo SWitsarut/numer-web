@@ -1,12 +1,19 @@
-import React from "react";
+import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeOptions, ThemeProvider, createTheme } from "@mui/material";
 
-const darkTheme = createTheme({
+const darkTheme: ThemeOptions = createTheme({
 	palette: {
 		mode: "dark",
+		primary: {
+			main: "#006064",
+		},
+		secondary: {
+			main: "#f50057",
+		},
+		divider: "rgba(255,255,255,0.3)",
 	},
 });
 

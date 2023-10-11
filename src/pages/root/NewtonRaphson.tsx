@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import {
 	Button,
@@ -25,7 +25,7 @@ type OnePointRes = {
 };
 
 function NewtomRaphson() {
-	document.title = "newton-raphson"
+	document.title = "newton-raphson";
 	const [answerState, setAnwerState] = useState<OnePointRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 

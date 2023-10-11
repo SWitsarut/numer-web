@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Stack, Divider } from "@mui/material";
 import { NavigateFunction } from "react-router-dom";
 import HubCard from "../Component/HubCard";
 import { IndexCardProps } from "../type and interface/type";
@@ -54,6 +54,7 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 					);
 				})}
 			</Stack>
+			<Divider />
 			<h2>AX+B</h2>
 		</Stack>
 	);

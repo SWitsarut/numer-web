@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { Button, Stack, TextField } from "@mui/material";
 import Plot from "react-plotly.js";
