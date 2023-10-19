@@ -4,16 +4,22 @@ import { useEffect, useState } from "react";
 
 function Cramer() {
 	const [size, setSize] = useState<number>(3);
-	const [A, setA] = useState<number[][]>(() => {
-		return Array.from({ length: size }, () => new Array(size).fill(0));
-	});
+	const [A, setA] = useState<number[][]>(new Array(size).fill(new Array(size).fill(0)));
 	const [B, setB] = useState<number[]>(() => new Array(size).fill(0));
+	const [ans, setAns] = useState<number[]>();
 
 	useEffect(() => {
 		document.title = "Cramer";
 	}, []);
 
-	const [ans, setAns] = useState<number[]>();
+	useEffect(() => {
+		console.log(A);
+	}, [A]);
+	useEffect(() => {
+		// setA(() => Array.from({ length: size }, () => new Array(size).fill(0)));
+		setA(() => new Array(size).fill(new Array(size).fill(0)));
+		setB(() => new Array(size).fill(0));
+	}, [size]);
 
 	const fetchAnswer = () => {
 		axios
@@ -29,11 +35,6 @@ function Cramer() {
 				console.error("Error fetching answer:", error);
 			});
 	};
-
-	useEffect(() => {
-		setA(() => Array.from({ length: size }, () => new Array(size).fill(0)));
-		setB(() => new Array(size).fill(0));
-	}, [size]);
 
 	const handleMatrixChange = (rowIndex: number, colIndex: number, newValue: number) => {
 		setA((prevA) => {
@@ -63,14 +64,14 @@ function Cramer() {
 				type="number"
 				value={size}
 				onChange={(e) => {
-					setSize(Math.max(Math.min(Number(e.target.value), 10), 0));
+					setSize(Math.max(Math.min(Number(e.target.value), 100), 0));
 				}}
 			/>
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					console.log("Matrix A:", A);
-					console.log("Vector B:", B);
+					// console.log("Matrix A:", A);
+					// console.log("Vector B:", B);
 					fetchAnswer();
 				}}
 			>
@@ -91,7 +92,7 @@ function Cramer() {
 											<TextField
 												type="number"
 												sx={{ maxWidth: 120 }}
-												key={`${rowIndex}-${colIndex}`}
+												key={`${rowIndex},${colIndex}`}
 												value={A[rowIndex][colIndex]}
 												onChange={(e) => {
 													const newValue = Number(e.target.value);
@@ -117,7 +118,7 @@ function Cramer() {
 									type="number"
 									sx={{ maxWidth: 120 }}
 									key={`${colIndex}`}
-									value={B[colIndex]}
+									value={value}
 									onChange={(e) => {
 										const newValue = Number(e.target.value);
 										handleBChange(colIndex, newValue);
