@@ -10,7 +10,7 @@ import OnePoint from "./pages/root/OnePoint";
 import NewtomRaphson from "./pages/root/NewtonRaphson";
 import Secant from "./pages/root/Secant";
 import Page404 from "./pages/Page404";
-import Cramer from "./pages/linear equation/Cramer";
+import Matrix from "./pages/linear equation/Matrix";
 
 function App() {
 	const navigate = useNavigate();
@@ -49,7 +49,17 @@ function App() {
 									<Outlet /> // Render nested routes
 								}
 							>
-								<Route path="cramer" element={<Cramer />} />
+								<Route path="cramer" element={<Matrix path={"cramer"} />} />
+								<Route path="gauss" element={<Matrix path={"gauss"} />} />
+								<Route
+									path="gauss-jordan"
+									element={<Matrix path={"gauss-jordan"} />}
+								/>
+								<Route path="inversion" element={<Matrix path={"inversion"} />} />
+								<Route
+									path="gauss-seidel"
+									element={<Matrix path={"gauss-seidel"} />}
+								/>
 							</Route>
 
 							<Route path="*" element={<Page404 />} />

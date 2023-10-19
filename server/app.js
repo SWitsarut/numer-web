@@ -15,6 +15,8 @@ import { Cramer } from "./AXB/Cramer.js";
 import { gauss_jordan } from "./AXB/gauss-jordan.js";
 import { gauss } from "./AXB/gauss.js";
 import requestTimeTracker from "./Middle ware/requestTimeTracker.js";
+import gauss_seidel from "./AXB/Gauss-seidel.js";
+import LU from "./AXB/LUdecomposition.js";
 
 
 const app = express();
@@ -59,15 +61,13 @@ app.post("/secant", async (req, res) => {
 
 app.post("/cramer", async (req, res) => {
     const { A, B } = req.body;
-    console.log("A", A);
-    console.log("B", B);
     const x = await Cramer(A, B);
     res.status(200).json(x);
 })
 
 app.post("/gauss", async (req, res) => {
     const { A, B } = req.body;
-    const x = await gauss(A, B);
+    const x = gauss(A, B);
     res.status(200).json(x);
 })
 
@@ -80,6 +80,18 @@ app.post("/gauss-jordan", async (req, res) => {
 app.post("/inversion", async (req, res) => {
     const { A, B } = req.body;
     const x = await gauss_jordan(A, B);
+    res.status(200).json(x);
+})
+
+app.post("/gauss-seidel", async (req, res) => {
+    const { A, B } = req.body;
+    const x = gauss_seidel(A, B);
+    res.status(200).json(x);
+})
+
+app.post("/lu-decomposition", async (req, res) => {
+    const { A, B } = req.body;
+    const x = LU(A, B);
     res.status(200).json(x);
 })
 

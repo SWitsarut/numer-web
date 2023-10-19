@@ -38,6 +38,26 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			path: "/linear/cramer",
 			description: "answer of linear equation using Cramer method",
 		},
+		{
+			name: "Guass Method",
+			path: "/linear/gauss",
+			description: "answer of linear equation using Guass method",
+		},
+		{
+			name: "Guass-jordan Method",
+			path: "/linear/gauss-jordan",
+			description: "answer of linear equation using Guass-jordan method",
+		},
+		{
+			name: "Inversion Method",
+			path: "/linear/inversion",
+			description: "answer of linear equation using Matrix Inversion method",
+		},
+		{
+			name: "Gauss-seidel Method",
+			path: "/linear/gauss-seidel",
+			description: "answer of linear equation using gauss-seidel method",
+		},
 	];
 
 	return (

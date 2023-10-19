@@ -2,15 +2,18 @@ import { Box, TextField, Stack, Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-function Cramer() {
+type props = {
+	path: string;
+};
+function Matrix({ path }: props) {
 	const [size, setSize] = useState<number>(3);
 	const [A, setA] = useState<number[][]>(new Array(size).fill(new Array(size).fill(0)));
 	const [B, setB] = useState<number[]>(() => new Array(size).fill(0));
 	const [ans, setAns] = useState<number[]>();
 
 	useEffect(() => {
-		document.title = "Cramer";
-	}, []);
+		document.title = path.charAt(0).toUpperCase() + path.slice(1);
+	}, [path]);
 
 	useEffect(() => {
 		console.log(A);
@@ -23,7 +26,7 @@ function Cramer() {
 
 	const fetchAnswer = () => {
 		axios
-			.post("http://localhost:8080/cramer", {
+			.post("http://localhost:8080/" + path, {
 				A,
 				B,
 			})
@@ -57,7 +60,7 @@ function Cramer() {
 
 	return (
 		<Stack spacing={2}>
-			<h2>Cramer</h2>
+			<h2>{path.charAt(0).toUpperCase() + path.slice(1)}</h2>
 			<TextField
 				variant="outlined"
 				label="Size m*m"
@@ -146,4 +149,4 @@ function Cramer() {
 	);
 }
 
-export default Cramer;
+export default Matrix;
