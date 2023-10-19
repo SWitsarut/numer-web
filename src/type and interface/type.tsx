@@ -25,3 +25,4 @@ export type SecantRes = {
 	data: string;
 	iterationData: SecantIter;
 };
+

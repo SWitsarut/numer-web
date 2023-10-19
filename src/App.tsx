@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, NavigateFunction } from "react-router-dom";
+import { Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Navbar from "./Component/Navbar";
 import Box from "@mui/material/Box";
@@ -10,9 +10,10 @@ import OnePoint from "./pages/root/OnePoint";
 import NewtomRaphson from "./pages/root/NewtonRaphson";
 import Secant from "./pages/root/Secant";
 import Page404 from "./pages/Page404";
+import Cramer from "./pages/linear equation/Cramer";
 
 function App() {
-	const navigate: NavigateFunction = useNavigate();
+	const navigate = useNavigate();
 	return (
 		<>
 			<Box
@@ -28,11 +29,29 @@ function App() {
 					<Paper sx={{ padding: 3, minHeight: "100vh" }} elevation={1}>
 						<Routes>
 							<Route path="/" element={<Index navigate={navigate} />} />
-							<Route path="/bisection" element={<Bisection />} />
-							<Route path="/graphical" element={<Graphical />} />
-							<Route path="/one-point" element={<OnePoint />} />
-							<Route path="/newton-raphson" element={<NewtomRaphson />} />
-							<Route path="/secant" element={<Secant />} />
+
+							<Route
+								path="/root"
+								element={
+									<Outlet /> // Render nested routes
+								}
+							>
+								<Route path="bisection" element={<Bisection />} />
+								<Route path="graphical" element={<Graphical />} />
+								<Route path="one-point" element={<OnePoint />} />
+								<Route path="newton-raphson" element={<NewtomRaphson />} />
+								<Route path="secant" element={<Secant />} />
+							</Route>
+
+							<Route
+								path="/linear"
+								element={
+									<Outlet /> // Render nested routes
+								}
+							>
+								<Route path="cramer" element={<Cramer />} />
+							</Route>
+
 							<Route path="*" element={<Page404 />} />
 						</Routes>
 					</Paper>
@@ -42,5 +61,4 @@ function App() {
 	);
 }
 
-export {};
 export default App;

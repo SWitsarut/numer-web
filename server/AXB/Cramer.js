@@ -1,24 +1,24 @@
 function getDeterminant(matrix) {
-    let det = 0;
     const size = matrix.length;
 
-    // Calculate the determinant using the formula
-    for (let i = 0; i < size; i++) {
-        let product = 1;
-        for (let j = 0; j < size; j++) {
-            const element = matrix[j][(i + j) % size];
-            product *= element;
-        }
-        det += product;
+    // Base case for 2x2 matrix
+    if (size === 2) {
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
     }
 
+    let det = 0;
     for (let i = 0; i < size; i++) {
-        let product = 1;
-        for (let j = size - 1; j >= 0; j--) {
-            const element = matrix[j][(i + (size - j - 1)) % size];
-            product *= element;
+        const subMatrix = [];
+        for (let j = 1; j < size; j++) {
+            const row = [];
+            for (let k = 0; k < size; k++) {
+                if (k !== i) {
+                    row.push(matrix[j][k]);
+                }
+            }
+            subMatrix.push(row);
         }
-        det -= product;
+        det += matrix[0][i] * getDeterminant(subMatrix) * (i % 2 === 0 ? 1 : -1);
     }
 
     return det;
