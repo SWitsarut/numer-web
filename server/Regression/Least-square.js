@@ -24,8 +24,11 @@ function Least_Square_Linear(x, y, targetX) {
     let ans = [ySum, xySum];
 
     let a = Cramer(matrix, ans);
-    console.log(a);
-    return a[0] + a[1] * targetX;
+    let fx = 0;
+    for (let i = 0; i < a.length; i++) {
+        fx += a[i] * Math.pow(targetX, i);
+    }
+    return fx;
 }
 
 function Least_Square_Polynomial(m, x, y, targetX) {
