@@ -59,6 +59,8 @@ app.post("/secant", async (req, res) => {
 
 app.post("/cramer", async (req, res) => {
     const { A, B } = req.body;
+    console.log("A", A);
+    console.log("B", B);
     const x = await Cramer(A, B);
     res.status(200).json(x);
 })

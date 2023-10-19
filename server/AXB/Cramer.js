@@ -47,11 +47,15 @@ export function Cramer(matrix, vector) {
     for (let i = 0; i < matrix.length; i++) {
         const modifiedMatrix = replaceColumn(matrix, vector, i);
         const determinant = getDeterminant(modifiedMatrix);
-
-        const solution = determinant / originalDet;
+        let solution
+        if (originalDet !== 0) {
+            solution = determinant / originalDet
+        } else {
+            solution = determinant / 1e-6;
+        }
         solutions.push(solution);
     }
-
+    console.log("data", solutions)
     return solutions;
 }
 
