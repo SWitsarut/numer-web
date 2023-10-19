@@ -1,3 +1,4 @@
+import { Box, TextField, Stack, Button } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -33,12 +34,14 @@ function Cramer() {
 
 	return (
 		<>
-			<input
+			<TextField
+				variant="outlined"
+				label="Size m*m"
 				type="number"
 				value={size}
 				onChange={(e) => {
 					setSize(() => {
-						return Number(e.target.value);
+						return Math.max(Number(e.target.value), 0);
 					});
 				}}
 			/>
@@ -48,27 +51,36 @@ function Cramer() {
 					console.log(A);
 				}}
 			>
-				{A.map((row, rowIndex) => {
-					return (
-						<div key={rowIndex}>
-							{A[rowIndex].map((col, colIndex) => {
-								return (
-									<input
-										type="number"
-										key={`${rowIndex},${colIndex}`}
-										value={A[rowIndex][colIndex]}
-										onChange={(e) => {
-											const newValue = Number(e.target.value);
-											handleMatrixChange(rowIndex, colIndex, newValue);
-										}}
-									/>
-								);
-							})}
-						</div>
-					);
-				})}
+				<Stack spacing={2} padding={"2em"}>
+					{A.map((row, rowIndex) => {
+						return (
+							<Box
+								key={rowIndex}
+								width="100%"
+								display={"flex"}
+								justifyContent={"space-evenly"}
+								gap="2em"
+							>
+								{A[rowIndex].map((col, colIndex) => {
+									return (
+										<TextField
+											type="number"
+											sx={{ maxWidth: 120 }}
+											key={`${rowIndex},${colIndex}`}
+											value={A[rowIndex][colIndex]}
+											onChange={(e) => {
+												const newValue = Number(e.target.value);
+												handleMatrixChange(rowIndex, colIndex, newValue);
+											}}
+										/>
+									);
+								})}
+							</Box>
+						);
+					})}
+				</Stack>
+				<Button variant="contained" type="submit">Submit</Button>
 			</form>
-			<button type="submit">Submit</button>
 		</>
 	);
 }
