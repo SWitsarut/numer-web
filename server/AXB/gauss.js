@@ -12,7 +12,11 @@ export function gauss(Arr, Ans) {
         //1st element to 1
         let divider = arr[i][i];
         for (let j = i; j < n + 1; j++) {
-            arr[i][j] /= divider;
+            if (divider != 0) {
+                arr[i][j] /= divider;
+            } else {
+                arr[i][j] /= 1e-9;
+            }
         }
 
         // divide other
@@ -33,5 +37,5 @@ export function gauss(Arr, Ans) {
     }
     let answer = arr.map((row) => row[n]);
     console.log(answer);
-    return { data: answer };
+    return answer ;
 }

@@ -1,15 +1,17 @@
 
-export function Newton(Arr, x) {
+export function Newton(x, y, targetX) {
 
-    let arr = Arr;
+
+    let X = [...x];
+    let Y = [...y];
     let C = [];
 
     function getC(xl, xr) {
         if (xl == xr) {
-            return arr[xl].y;
+            return Y[xl];
         }
         else {
-            return (getC(xl, xr + 1) - getC(xl - 1, xr)) / (arr[xl].x - arr[xr].x);
+            return (getC(xl, xr + 1) - getC(xl - 1, xr)) / (X[xl] - X[xr]);
         }
     }
     function fx(x) {
@@ -17,17 +19,23 @@ export function Newton(Arr, x) {
         let term = 1;
 
         for (let i = 1; i < C.length; i++) {
-            term *= (x - arr[i - 1].x);
+            term *= (x - X[i - 1]);
             result += C[i] * term;
         }
 
         return result;
     }
 
-    C.push(arr[0].y);
-    for (let i = 1; i < arr.length; i++) {
+    C.push(Y[0]);
+    for (let i = 1; i < Y.length; i++) {
         C.push(getC(i, 0));
     }
-
-    return fx(x)
+    
+    return fx(targetX)
 }
+
+
+let xArr = [0, 20000, 40000, 60000, 80000];
+let yArr = [9.81, 9.7487, 9.6879, 9.6879, 9.5682]
+let x = 42235;
+console.log(Newton(xArr, yArr, x));

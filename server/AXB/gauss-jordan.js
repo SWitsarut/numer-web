@@ -32,6 +32,7 @@ export function gauss_jordan(matrix, matrix2) {
             matrix2[j] -= factor * matrix2[i];
         }
     }
+    console.log(matrix2)
     return matrix2;
 }
 

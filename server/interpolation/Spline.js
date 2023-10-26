@@ -1,5 +1,5 @@
-import { gauss_jordan, gaussJordan } from '../AXB/gauss-jordan.js'
-import { cramer } from "../AXB/Cramer.js"
+import { gauss_jordan } from '../AXB/gauss-jordan.js'
+// import { cramer } from "../AXB/Cramer.js"
 
 let xy = [{ x: 2, y: 9.5 }, { x: 4, y: 8.0 }, { x: 6, y: 10.5 }, { x: 8, y: 39.5 }, { x: 10, y: 72.5 }];
 
@@ -44,7 +44,7 @@ export function QuadraticSpline(xy, x) {
         point[i + 1].y,
         point[i + 2].y,
         point[i + 2].y,
-        point[i].y, 
+        point[i].y,
         point[i + 3].y,
         1e-5,
         1e-5,

@@ -17,6 +17,7 @@ import { gauss } from "./AXB/gauss.js";
 import requestTimeTracker from "./Middle ware/requestTimeTracker.js";
 import gauss_seidel from "./AXB/Gauss-seidel.js";
 import LU from "./AXB/LUdecomposition.js";
+import { Langange } from "./interpolation/Langange.js";
 
 
 const app = express();
@@ -96,6 +97,14 @@ app.post("/lu-decomposition", async (req, res) => {
 })
 
 
+app.post("/langange", async (req, res) => {
+    const { x, y, targetX } = req.body;
+    console.log("x",x);
+    console.log("y",y);
+    console.log("tarX",targetX);
+    const ans = Langange(x, y, targetX);
+    res.status(200).json(ans);
+})
 
 app.listen(8080, () => {
     console.log(chalk.yellow.bold('Server ') + chalk.bold.green("is running ") + chalk.blue.bold('at http://localhost:8080'));

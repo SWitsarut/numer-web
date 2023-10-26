@@ -34,9 +34,9 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 	];
 	const linear: IndexCardProps[] = [
 		{
-			name: "Cramer Method",
+			name: "Cramer rule",
 			path: "/linear/cramer",
-			description: "answer of linear equation using Cramer method",
+			description: "answer of linear equation using Cramer rule",
 		},
 		{
 			name: "Guass Method",
@@ -56,14 +56,25 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 		{
 			name: "Gauss-seidel Method",
 			path: "/linear/gauss-seidel",
-			description: "answer of linear equation using gauss-seidel method",
+			description: "linear equation using gauss-seidel method",
+		},
+		{
+			name: "LU Method",
+			path: "/linear/lu-decomposition",
+			description: "LU decomposition method",
 		},
 	];
-
+	const interpolation: IndexCardProps[] = [
+		{
+			name: "Langange",
+			path: "/interpolation/langange",
+			description: "Langange interpolation",
+		},
+	];
 	return (
 		<Stack spacing={2}>
 			<h1>Root of equation</h1>
-			<Stack direction={"row"} spacing={2} sx={{ justifyContent: "center" }}>
+			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
 				{roe?.map((card, index) => {
 					return (
 						<HubCard
@@ -78,8 +89,23 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			</Stack>
 			<Divider />
 			<h1>Linear Equation</h1>
-			<Stack direction={"row"} spacing={2} sx={{ justifyContent: "center" }}>
+			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
 				{linear?.map((card, index) => {
+					return (
+						<HubCard
+							key={index}
+							name={card.name}
+							path={card.path}
+							desciption={card.description}
+							navigate={navigate}
+						/>
+					);
+				})}
+			</Stack>
+			<Divider />
+			<h1>Interpolation</h1>
+			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
+				{interpolation?.map((card, index) => {
 					return (
 						<HubCard
 							key={index}

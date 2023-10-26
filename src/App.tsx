@@ -11,6 +11,7 @@ import NewtomRaphson from "./pages/root/NewtonRaphson";
 import Secant from "./pages/root/Secant";
 import Page404 from "./pages/Page404";
 import Matrix from "./pages/linear equation/Matrix";
+import Interpolation from "./pages/Interpolation/Interpolation";
 
 function App() {
 	const navigate = useNavigate();
@@ -59,6 +60,29 @@ function App() {
 								<Route
 									path="gauss-seidel"
 									element={<Matrix path={"gauss-seidel"} />}
+								/>
+								<Route
+									path="lu-decomposition"
+									element={<Matrix path={"lu-decomposition"} />}
+								/>
+							</Route>
+							<Route
+								path="/interpolation"
+								element={
+									<Outlet /> // Render nested routes
+								}
+							>
+								<Route
+									path="langange"
+									element={<Interpolation path={"langange"} />}
+								/>
+								<Route
+									path="langange"
+									element={<Interpolation path={"langange"} />}
+								/>
+								<Route
+									path="langange"
+									element={<Interpolation path={"langange"} />}
 								/>
 							</Route>
 

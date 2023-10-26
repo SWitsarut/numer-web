@@ -67,7 +67,7 @@ function Matrix({ path }: props) {
 				type="number"
 				value={size}
 				onChange={(e) => {
-					setSize(Math.max(Math.min(Number(e.target.value), 100), 0));
+					setSize(Math.max(Math.min(Number(e.target.value), 15), 0));
 				}}
 			/>
 			<form
@@ -90,13 +90,14 @@ function Matrix({ path }: props) {
 									justifyContent="space-around"
 									// gap="2em"
 								>
-									{row.map((col, colIndex) => {
+									{row.map((_col, colIndex) => {
 										return (
 											<TextField
 												type="number"
 												sx={{ maxWidth: 120 }}
 												key={`${rowIndex},${colIndex}`}
 												value={A[rowIndex][colIndex]}
+												label={`a${rowIndex}${colIndex}`}
 												onChange={(e) => {
 													const newValue = Number(e.target.value);
 													handleMatrixChange(
@@ -122,6 +123,7 @@ function Matrix({ path }: props) {
 									sx={{ maxWidth: 120 }}
 									key={`${colIndex}`}
 									value={value}
+									label={`b${colIndex}`}
 									onChange={(e) => {
 										const newValue = Number(e.target.value);
 										handleBChange(colIndex, newValue);
