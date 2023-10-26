@@ -63,11 +63,31 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			path: "/linear/lu-decomposition",
 			description: "LU decomposition method",
 		},
+		{
+			name: "Jacobi",
+			path: "/linear/jacobi",
+			description: "Jacobi method",
+		},
 	];
 	const interpolation: IndexCardProps[] = [
 		{
+			name: "Newton interpolation",
+			path: "/interpolation/newton",
+			description: "Newton interpolation",
+		},
+		{
 			name: "Langange",
 			path: "/interpolation/langange",
+			description: "Langange interpolation",
+		},
+		{
+			name: "Spline(Linear)",
+			path: "/interpolation/spline-linear",
+			description: "Langange interpolation",
+		},
+		{
+			name: "Spline(Quadratic)",
+			path: "/interpolation/spline-quadratic",
 			description: "Langange interpolation",
 		},
 	];

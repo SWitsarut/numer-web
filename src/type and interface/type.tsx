@@ -26,3 +26,11 @@ export type SecantRes = {
 	iterationData: SecantIter;
 };
 
+export type EquationMethods =
+	| "cramer"
+	| "gauss"
+	| "gauss-jordan"
+	| "inversion"
+	| "gauss-seidel"
+	| "lu-decomposition"
+	| "jacobi";

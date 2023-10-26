@@ -78,65 +78,84 @@ function Matrix({ path }: props) {
 					fetchAnswer();
 				}}
 			>
-				<Box padding={"2em"} display={"flex"} justifyContent={"space-between"}>
-					<Box className="A">
-						<h3>A</h3>
-						{A.map((row, rowIndex) => {
-							return (
-								<Box
-									key={rowIndex}
-									width="100%"
-									display="flex"
-									justifyContent="space-around"
-									// gap="2em"
-								>
-									{row.map((_col, colIndex) => {
-										return (
-											<TextField
-												type="number"
-												sx={{ maxWidth: 120 }}
-												key={`${rowIndex},${colIndex}`}
-												value={A[rowIndex][colIndex]}
-												label={`a${rowIndex}${colIndex}`}
-												onChange={(e) => {
-													const newValue = Number(e.target.value);
-													handleMatrixChange(
-														rowIndex,
-														colIndex,
-														newValue
-													);
-												}}
-											/>
-										);
-									})}
-								</Box>
-							);
-						})}
+				<Stack>
+					<Box padding={"2em"} display={"flex"} justifyContent={"space-between"}>
+						<Box className="A">
+							<h3>A</h3>
+							{A.map((row, rowIndex) => {
+								return (
+									<Box
+										key={rowIndex}
+										width="100%"
+										display="flex"
+										justifyContent="space-around"
+										// gap="2em"
+									>
+										{row.map((_col, colIndex) => {
+											return (
+												<TextField
+													type="number"
+													sx={{ maxWidth: 120 }}
+													key={`${rowIndex},${colIndex}`}
+													value={A[rowIndex][colIndex]}
+													label={`a${rowIndex}${colIndex}`}
+													onChange={(e) => {
+														const newValue = Number(e.target.value);
+														handleMatrixChange(
+															rowIndex,
+															colIndex,
+															newValue
+														);
+													}}
+												/>
+											);
+										})}
+									</Box>
+								);
+							})}
+						</Box>
+						<Box minWidth={"1em"}></Box>
+						<Box className="B" display={"flex"} flexDirection={"column"}>
+							<h3>B</h3>
+							{B.map((value, colIndex) => {
+								return (
+									<TextField
+										type="number"
+										sx={{ maxWidth: 120 }}
+										key={`${colIndex}`}
+										value={value}
+										label={`b${colIndex}`}
+										onChange={(e) => {
+											const newValue = Number(e.target.value);
+											handleBChange(colIndex, newValue);
+										}}
+									/>
+								);
+							})}
+						</Box>
 					</Box>
-					<Box minWidth={"1em"}></Box>
-					<Box className="B" display={"flex"} flexDirection={"column"}>
-						<h3>B</h3>
-						{B.map((value, colIndex) => {
-							return (
-								<TextField
-									type="number"
-									sx={{ maxWidth: 120 }}
-									key={`${colIndex}`}
-									value={value}
-									label={`b${colIndex}`}
-									onChange={(e) => {
-										const newValue = Number(e.target.value);
-										handleBChange(colIndex, newValue);
-									}}
-								/>
-							);
-						})}
-					</Box>
-				</Box>
-				<Button variant="contained" type="submit">
-					Submit
-				</Button>
+					<Button variant="contained" type="submit">
+						Submit
+					</Button>
+				</Stack>
 			</form>
+			<Button
+				variant="contained"
+				onClick={() => {
+					axios.get("http://localhost:8080/cramer/1").then((e) => {
+						const { data } = e;
+						const resA = JSON.parse(data.A);
+						const resB = JSON.parse(data.B);
+						// console.log(JSON.parse(e?.data.A));
+						console.log(data);
+						setSize(resA.length);
+						setA(resA);
+						setB(resB);
+					});
+				}}
+			>
+				get question
+			</Button>
 			<Stack spacing={2}>
 				<h3>Answer</h3>
 				<Box display={"flex"} flexDirection={"column"} alignItems={"center"}>

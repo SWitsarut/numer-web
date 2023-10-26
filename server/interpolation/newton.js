@@ -1,5 +1,5 @@
 
-export function Newton(x, y, targetX) {
+export function Newton_interpolation(x, y, targetX) {
 
 
     let X = [...x];
@@ -35,7 +35,7 @@ export function Newton(x, y, targetX) {
 }
 
 
-let xArr = [0, 20000, 40000, 60000, 80000];
-let yArr = [9.81, 9.7487, 9.6879, 9.6879, 9.5682]
-let x = 42235;
-console.log(Newton(xArr, yArr, x));
+// let xArr = [0, 20000, 40000, 60000, 80000];
+// let yArr = [9.81, 9.7487, 9.6879, 9.6879, 9.5682]
+// let x = 42235;
+// console.log(Newton(xArr, yArr, x));

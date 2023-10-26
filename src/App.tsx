@@ -65,6 +65,10 @@ function App() {
 									path="lu-decomposition"
 									element={<Matrix path={"lu-decomposition"} />}
 								/>
+								<Route
+									path="jacobi"
+									element={<Matrix path={"jacobi"} />}
+								/>
 							</Route>
 							<Route
 								path="/interpolation"
@@ -76,13 +80,14 @@ function App() {
 									path="langange"
 									element={<Interpolation path={"langange"} />}
 								/>
+								<Route path="newton" element={<Interpolation path={"newton"} />} />
 								<Route
-									path="langange"
-									element={<Interpolation path={"langange"} />}
+									path="spline-linear"
+									element={<Interpolation path={"spline-linear"} />}
 								/>
 								<Route
-									path="langange"
-									element={<Interpolation path={"langange"} />}
+									path="spline-quadratic"
+									element={<Interpolation path={"spline-quadratic"} />}
 								/>
 							</Route>
 
