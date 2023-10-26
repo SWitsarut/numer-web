@@ -1,6 +1,6 @@
 import { Box, TextField, Stack, Button } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type props = {
 	path: string;
@@ -11,6 +11,7 @@ function Matrix({ path }: props) {
 	const [B, setB] = useState<number[]>(() => new Array(size).fill(0));
 	const [ans, setAns] = useState<number[]>();
 
+	const [questionNum, setQuestionNum] = useState<number>(1);
 	useEffect(() => {
 		document.title = path.charAt(0).toUpperCase() + path.slice(1);
 	}, [path]);
@@ -139,23 +140,41 @@ function Matrix({ path }: props) {
 					</Button>
 				</Stack>
 			</form>
-			<Button
-				variant="contained"
-				onClick={() => {
-					axios.get("http://localhost:8080/cramer/1").then((e) => {
-						const { data } = e;
-						const resA = JSON.parse(data.A);
-						const resB = JSON.parse(data.B);
-						// console.log(JSON.parse(e?.data.A));
-						console.log(data);
-						setSize(resA.length);
-						setA(resA);
-						setB(resB);
-					});
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					axios
+						.get(
+							`http://localhost:8080/${
+								path == "jacobi" ? "jacobi" : "cramer"
+							}/${questionNum}`
+						)
+						.then((e) => {
+							const { data } = e;
+							const resA = JSON.parse(data.A);
+							const resB = JSON.parse(data.B);
+							setSize(resA.length);
+							setA(resA);
+							setB(resB);
+						});
 				}}
 			>
-				get question
-			</Button>
+				<Stack direction={"row"} spacing={2}>
+					<TextField
+						label="เลขข้อ"
+						value={questionNum}
+						onChange={(e) => {
+							const qN = Number(e.target.value);
+							setQuestionNum(qN);
+						}}
+						fullWidth
+						type="number"
+					/>
+					<Button variant="contained" fullWidth type="submit">
+						get question
+					</Button>
+				</Stack>
+			</form>
 			<Stack spacing={2}>
 				<h3>Answer</h3>
 				<Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
