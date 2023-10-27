@@ -78,6 +78,7 @@ router.get("/onepoint/:id", (req, res) => {
     `, [id], (err, result) => {
         if (err) {
             res.status(500).json({ error: "Internal Server Error" })
+            return
         }
         const [question] = result;
         res.status(200).json(question);
@@ -104,6 +105,7 @@ router.get("/newton-raphson/:id", (req, res) => {
     `, [id], (err, result) => {
         if (err) {
             res.status(500).json({ error: "Internal Server Error" })
+            return;
         }
         const [question] = result;
         res.status(200).json(question);
@@ -130,6 +132,7 @@ router.get("/secant/:id", (req, res) => {
     `, [id], (err, result) => {
         if (err) {
             res.status(500).json({ error: "Internal Server Error" })
+            return;
         }
         const [question] = result;
         res.status(200).json(question);

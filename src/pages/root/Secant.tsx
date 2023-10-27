@@ -7,9 +7,11 @@ import Plot from "react-plotly.js";
 
 export default function Secant() {
 	document.title = "Secant";
-	const question = useRef<HTMLInputElement | undefined>(null);
-	const x0 = useRef<HTMLInputElement | undefined>(null);
-	const x1 = useRef<HTMLInputElement | undefined>(null);
+	const [question, setQuestion] = useState<string>("");
+	const [x0, setX0] = useState<number>(0);
+	const [x1, setX1] = useState<number>(0);
+
+	const [questionNum, setQuestionNum] = useState<number>(1);
 
 	const [ans, setAns] = useState<SecantRes | null>(null);
 
@@ -19,9 +21,9 @@ export default function Secant() {
 	const fetchAnswer = async () => {
 		await axios
 			.post("http://localhost:8080/secant", {
-				question: question.current?.value,
-				x0: x0.current?.value,
-				x1: x1.current?.value,
+				question: question,
+				x0: Number(x0),
+				x1: Number(x1),
 			})
 			.then((e) => {
 				console.log(e);
@@ -29,11 +31,10 @@ export default function Secant() {
 			});
 	};
 	const getGraph = async () => {
-		const strQuestion: string = question.current?.value || "";
 		const tempx: number[] = [];
 		const tempy: number[] = [];
 
-		const fn = compile(strQuestion);
+		const fn = compile(question);
 		for (let index = -10; index <= 10; index++) {
 			const fx = fn.evaluate({ x: index });
 			tempx.push(index);
@@ -60,23 +61,69 @@ export default function Secant() {
 			>
 				<Stack spacing={2} alignContent={"center"}>
 					<TextField
-						inputRef={question}
+						value={question}
+						onChange={(e) => setQuestion(e.target.value)}
 						type="text"
 						variant="outlined"
 						label={"question"}
 					/>
-					<TextField inputRef={x0} type="number" variant="outlined" label={"x0"} />
-					<TextField inputRef={x1} type="number" variant="outlined" label={"x1"} />
+					<TextField
+						value={x0}
+						onChange={(e) => {
+							const ne = Number(e.target.value);
+							setX0(ne);
+						}}
+						type="number"
+						variant="outlined"
+						label={"x0"}
+					/>
+					<TextField
+						value={x1}
+						onChange={(e) => {
+							const ne = Number(e.target.value);
+							setX1(ne);
+						}}
+						type="number"
+						variant="outlined"
+						label={"x1"}
+					/>
 					<Button type="submit" variant="contained">
 						Calculate
 					</Button>
-					<h2>{ans?.data}</h2>
-					<Plot
-						data={[{ x: x, y: y, marker: { color: "red" }, showlegend: false }]}
-						layout={{ height: 500 }}
-					/>
 				</Stack>
 			</form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					axios.get(`http://localhost:8080/secant/${questionNum}`).then((e) => {
+						// console.log(e?.data);
+						const { data } = e;
+						setQuestion(data.question || "");
+						setX0(data.x0 || 1);
+					});
+				}}
+			>
+				<Stack direction={"row"} spacing={2}>
+					<TextField
+						variant="outlined"
+						value={questionNum}
+						type="number"
+						fullWidth
+						onChange={(e) => {
+							const nq = Math.max(Number(e.target.value), 1);
+							setQuestionNum(nq);
+						}}
+					/>
+					<Button fullWidth type="submit" variant="contained">
+						Get Question
+					</Button>
+				</Stack>
+			</form>
+			<h2>{ans?.data}</h2>
+			<Plot
+				data={[{ x: x, y: y, marker: { color: "red" }, showlegend: false }]}
+				layout={{ height: 500 }}
+			/>
 		</Stack>
 	);
 }

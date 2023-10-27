@@ -33,8 +33,10 @@ function OnePoint() {
 	const [minXi_1, setMinXi_1] = useState<number>();
 	const [maxXi_1, setMaxXi_1] = useState<number>();
 
-	const x0 = useRef<HTMLInputElement>();
-	const question = useRef<HTMLInputElement>();
+	const [question, setQuestion] = useState<string>("x+2");
+	const [x0, setX0] = useState<number>(0);
+
+	const [questionNum, setQuestionNum] = useState<number>(1);
 
 	const x: number[] = [];
 	const y: number[] = [];
@@ -46,8 +48,8 @@ function OnePoint() {
 		setLoading(true);
 		try {
 			const data = await axios.post<OnePointRes>(`http://localhost:8080/onepoint`, {
-				question: question.current?.value,
-				x0: x0.current?.value,
+				question: question,
+				x0: Number(x0),
 			});
 			console.log(data.data);
 			setAnwerState(data.data);
@@ -81,11 +83,11 @@ function OnePoint() {
 		setMinXi_1(minXi);
 	}
 
-	async function plotGraph() {
+	async function plotGraph(question: string) {
 		console.log(maxXi_1);
 		console.log(minXi_1);
-		const strQuestion: string = question.current?.value || "";
-		const fn = compile(strQuestion);
+		// const strQuestion: string = question;
+		const fn = compile(question);
 		const max = maxXi_1 || 0;
 		x.length = 0;
 		y.length = 0;
@@ -107,20 +109,60 @@ function OnePoint() {
 					await fetchAnswer();
 					getMaxXi_1();
 					getMinXi_1();
-					await plotGraph();
+					await plotGraph(question);
 				}}
 			>
 				<Stack spacing={2}>
 					<TextField
 						type="text"
-						inputRef={question}
+						value={question}
+						onChange={(e) => {
+							setQuestion(e.target.value);
+						}}
 						variant="outlined"
 						label="Question"
 						required
 					/>
-					<TextField type="number" inputRef={x0} variant="outlined" label="x0" required />
+					<TextField
+						type="number"
+						value={x0}
+						onChange={(e) => {
+							const ne = Number(e.target.value);
+							setX0(ne);
+						}}
+						variant="outlined"
+						label="x0"
+						required
+					/>
 					<Button type="submit" variant="contained">
 						go
+					</Button>
+				</Stack>
+			</form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					axios.get(`http://localhost:8080/onepoint/${questionNum}`).then((e) => {
+						// console.log(e?.data);
+						const { data } = e;
+						setQuestion(data.question || "");
+						setX0(data.x0 || 1);
+					});
+				}}
+			>
+				<Stack direction={"row"} spacing={2}>
+					<TextField
+						variant="outlined"
+						value={questionNum}
+						type="number"
+						fullWidth
+						onChange={(e) => {
+							const nq = Number(e.target.value);
+							setQuestionNum(nq);
+						}}
+					/>
+					<Button fullWidth type="submit" variant="contained">
+						Get Question
 					</Button>
 				</Stack>
 			</form>

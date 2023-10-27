@@ -31,31 +31,38 @@ interface BisectionRes {
 	iterationData: iterationData[];
 }
 
-class Bisection extends Component<NonNullable<unknown>> {
-	xl: RefObject<HTMLInputElement> = React.createRef();
-	question: RefObject<HTMLInputElement> = React.createRef();
-	xr: RefObject<HTMLInputElement> = React.createRef();
+type MyState = {
+	xl: number | undefined;
+	xr: number | undefined;
+	question: string | undefined;
+	questionNumber: number;
+	resData: BisectionRes | null;
+};
+class Bisection extends Component<NonNullable<unknown>, MyState> {
+	// xl: RefObject<HTMLInputElement> = React.createRef();
+	// question: RefObject<HTMLInputElement> = React.createRef();
+	// xr: RefObject<HTMLInputElement> = React.createRef();
 	GraphX: number[] = [];
 	GraphY: number[] = [];
 	constructor(props: NonNullable<unknown>) {
 		super(props);
 
 		this.state = {
+			xl: 0,
+			xr: 0,
+			question: "",
+			questionNumber: 1,
 			resData: null,
 		};
 	}
 
-	componentDidMount() {
-		if (this.xl.current) {
-			this.xl.current.focus();
-		}
-	}
+	// componentDidMount() {
+	// 	if (this.xl.current) {
+	// 		this.xl.current.focus();
+	// 	}
+	// }
 
 	getData = async (question: string, xl: number, xr: number): Promise<void> => {
-		// const question = this.question.current?.value || "";
-		// const xl = parseFloat(this.xl.current?.value || "0");
-		// const xr = parseFloat(this.xr.current?.value || "0");
-
 		if (!question || isNaN(xl) || isNaN(xr)) {
 			// Input validation
 			alert("Please enter valid values.");
@@ -70,6 +77,7 @@ class Bisection extends Component<NonNullable<unknown>> {
 			});
 
 			this.setState({ resData: response.data });
+			console.log(response.data);
 		} catch (error) {
 			console.error("Error:", error);
 			alert("An error occurred while fetching data.");
@@ -78,6 +86,10 @@ class Bisection extends Component<NonNullable<unknown>> {
 
 	render() {
 		const { resData } = this.state as { resData: BisectionRes };
+		const { question } = this.state as { question: string };
+		const { xl } = this.state as { xl: number };
+		const { xr } = this.state as { xr: number };
+		const { questionNumber } = this.state as { questionNumber: number };
 		document.title = "Bisection";
 		return (
 			<Stack sx={{ gap: 2 }}>
@@ -85,9 +97,9 @@ class Bisection extends Component<NonNullable<unknown>> {
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
-						const question = this.question.current?.value || "";
-						const xl = parseFloat(this.xl.current?.value || "0");
-						const xr = parseFloat(this.xr.current?.value || "0");
+						// const question = this.question.current?.value || "";
+						// const xl = parseFloat(this.xl.current?.value || "0");
+						// const xr = parseFloat(this.xr.current?.value || "0");
 						const fn: EvalFunction = compile(question);
 						this.getData(question, xl, xr);
 						for (let i = xl; i < xr; i += 0.1) {
@@ -97,11 +109,60 @@ class Bisection extends Component<NonNullable<unknown>> {
 					}}
 				>
 					<Stack sx={{ gap: 2 }}>
-						<TextField inputRef={this.question} label="Question" variant="outlined" />
-						<TextField inputRef={this.xl} label="XL" variant="outlined" type="number" />
-						<TextField inputRef={this.xr} label="XR" variant="outlined" type="number" />
+						<TextField
+							value={question}
+							onChange={(e) => {
+								this.setState({ question: e.target.value });
+							}}
+							label="Question"
+							variant="outlined"
+						/>
+						<TextField
+							value={xl}
+							onChange={(e) => {
+								this.setState({ xl: Number(e.target.value) });
+							}}
+							label="XL"
+							variant="outlined"
+							type="number"
+						/>
+						<TextField
+							value={xr}
+							onChange={(e) => {
+								this.setState({ xr: Number(e.target.value) });
+							}}
+							label="XR"
+							variant="outlined"
+							type="number"
+						/>
 						<Button variant="contained" type="submit">
 							Calculate
+						</Button>
+					</Stack>
+				</form>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						axios.get(`http://localhost:8080/bisection/${questionNumber}`).then((e) => {
+							console.log(e.data);
+							const { data } = e;
+							this.setState({ xl: data.xl, xr: data.xr, question: data.question });
+						});
+					}}
+				>
+					<Stack direction={"row"} spacing={2}>
+						<TextField
+							value={questionNumber}
+							onChange={(e) => {
+								const num = Math.max(Number(e.target.value), 1);
+								this.setState({ questionNumber: num });
+							}}
+							label={"question number"}
+							type="number"
+							fullWidth
+						/>
+						<Button variant="contained" type="submit" fullWidth>
+							Get Question
 						</Button>
 					</Stack>
 				</form>

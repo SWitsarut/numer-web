@@ -12,18 +12,10 @@ function Matrix({ path }: props) {
 	const [ans, setAns] = useState<number[]>();
 
 	const [questionNum, setQuestionNum] = useState<number>(1);
+
 	useEffect(() => {
 		document.title = path.charAt(0).toUpperCase() + path.slice(1);
 	}, [path]);
-
-	useEffect(() => {
-		console.log(A);
-	}, [A]);
-	useEffect(() => {
-		// setA(() => Array.from({ length: size }, () => new Array(size).fill(0)));
-		setA(() => new Array(size).fill(new Array(size).fill(0)));
-		setB(() => new Array(size).fill(0));
-	}, [size]);
 
 	const fetchAnswer = () => {
 		axios
@@ -68,7 +60,10 @@ function Matrix({ path }: props) {
 				type="number"
 				value={size}
 				onChange={(e) => {
-					setSize(Math.max(Math.min(Number(e.target.value), 15), 0));
+					const size = Math.max(Math.min(Number(e.target.value), 15), 0);
+					setSize(size);
+					setA(() => new Array(size).fill(new Array(size).fill(0)));
+					setB(() => new Array(size).fill(0));
 				}}
 			/>
 			<form

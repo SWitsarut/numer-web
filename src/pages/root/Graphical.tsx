@@ -10,19 +10,23 @@ function Graphical() {
 	const [answerState, setAnwerState] = useState<GraphicalRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 
-	const xl = useRef<HTMLInputElement>();
-	const xr = useRef<HTMLInputElement>();
-	const question = useRef<HTMLInputElement>();
+	const [question, setQuestion] = useState<string>();
+	const [xl, setXl] = useState<number>();
+	const [xr, setXr] = useState<number>();
 
-	const GraphX: number[] = [];
-	const GraphY: number[] = [];
+	const [x, setX] = useState<number[]>();
+	const [y, setY] = useState<number[]>();
+
+	const [questionNum, setQuestionNum] = useState<number>(1);
+	let GraphX: number[] = [];
+	let GraphY: number[] = [];
 	const fetchAnswer = async () => {
 		setLoading(true);
 		try {
 			const response = await axios.post<GraphicalRes>(`http://localhost:8080/graphical`, {
-				question: question.current?.value,
-				xl: Number(xl.current?.value),
-				xr: Number(xr.current?.value),
+				question: question,
+				xl: Number(xl),
+				xr: Number(xr),
 			});
 
 			// Log the response to check its structure
@@ -49,33 +53,85 @@ function Graphical() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					fetchAnswer();
-					const fn = compile(question.current?.value || "");
-					const valXl = Number(xl.current?.value || 0);
-					const valXr = Number(xr.current?.value || 10);
+					const fn = compile(question || "");
+					const valXl = Number(xl);
+					const valXr = Number(xr);
+					GraphX = [];
+					GraphY = [];
 					for (let i = valXl; i <= valXr; i += 0.1) {
 						GraphX.push(i);
 						GraphY.push(fn.evaluate({ x: i }));
 					}
+					setX(GraphX);
+					setY(GraphY);
+					console.log(GraphX);
+					console.log(GraphY);
 				}}
 			>
 				<Stack spacing={2}>
-					<TextField inputRef={question} variant="outlined" label="Question" required />
 					<TextField
-						type="number"
-						inputRef={xl}
+						label="Question"
+						value={question}
+						onChange={(e) => {
+							setQuestion(e.target.value);
+						}}
 						variant="outlined"
-						label="start"
 						required
 					/>
 					<TextField
 						type="number"
-						inputRef={xr}
+						label="start"
+						value={xl}
+						onChange={(e) => {
+							const nx = Number(e.target.value);
+							setXl(nx);
+						}}
 						variant="outlined"
+						required
+					/>
+					<TextField
+						type="number"
 						label="end"
+						value={xr}
+						onChange={(e) => {
+							const nx = Number(e.target.value);
+							setXr(nx);
+						}}
+						variant="outlined"
 						required
 					/>
 					<Button type="submit" variant="contained">
 						go
+					</Button>
+				</Stack>
+			</form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					axios.get(`http://localhost:8080/graphical/${questionNum}`).then((e) => {
+						// console.log(e?.data);
+						const { data } = e;
+						const resXl = Number(data.xl);
+						const resXr = Number(data.xr);
+						setQuestion(data.question);
+						setXl(resXl);
+						setXr(resXr);
+					});
+				}}
+			>
+				<Stack direction={"row"} spacing={2}>
+					<TextField
+						variant="outlined"
+						value={questionNum}
+						type="number"
+						fullWidth
+						onChange={(e) => {
+							const nq = Number(e.target.value);
+							setQuestionNum(nq);
+						}}
+					/>
+					<Button fullWidth type="submit" variant="contained">
+						Get Question
 					</Button>
 				</Stack>
 			</form>
@@ -89,11 +145,9 @@ function Graphical() {
 					data={[
 						{
 							name: "graph",
-							x: GraphX,
-							y: GraphY,
-							type: "scatter",
-							mode: "lines",
-							line: { color: "red" },
+							x,
+							y,
+							marker: { color: "red" },
 							showlegend: false,
 						},
 						{

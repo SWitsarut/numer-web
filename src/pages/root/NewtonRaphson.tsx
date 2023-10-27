@@ -29,15 +29,17 @@ function NewtomRaphson() {
 	const [answerState, setAnwerState] = useState<OnePointRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 
-	const x0 = useRef<HTMLInputElement>();
-	const question = useRef<HTMLInputElement>();
+	const [x0, setX0] = useState<number>(0);
+	const [question, setQuestion] = useState<string>("");
+
+	const [questionNum, setQuestionNum] = useState<number>(1);
 
 	const fetchAnswer = async () => {
 		setLoading(true);
 		try {
 			const data = await axios.post<OnePointRes>(`http://localhost:8080/newton-raphson`, {
-				question: question.current?.value,
-				x0: x0.current?.value,
+				question,
+				x0: Number(x0),
 			});
 			console.log(data);
 			setAnwerState(data.data);
@@ -57,10 +59,55 @@ function NewtomRaphson() {
 				}}
 			>
 				<Stack spacing={2}>
-					<TextField inputRef={question} variant="outlined" label="Question" required />
-					<TextField type="number" inputRef={x0} variant="outlined" label="x0" required />
+					<TextField
+						value={question}
+						onChange={(e) => {
+							setQuestion(e.target.value);
+						}}
+						variant="outlined"
+						label="Question"
+						required
+					/>
+					<TextField
+						type="number"
+						value={x0}
+						onChange={(e) => {
+							const ne = Number(e.target.value);
+							setX0(ne);
+						}}
+						variant="outlined"
+						label="x0"
+						required
+					/>
 					<Button type="submit" variant="contained">
 						go
+					</Button>
+				</Stack>
+			</form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					axios.get(`http://localhost:8080/newton-raphson/${questionNum}`).then((e) => {
+						// console.log(e?.data);
+						const { data } = e;
+						setQuestion(data.question || "");
+						setX0(data.x0 || 1);
+					});
+				}}
+			>
+				<Stack direction={"row"} spacing={2}>
+					<TextField
+						variant="outlined"
+						value={questionNum}
+						type="number"
+						fullWidth
+						onChange={(e) => {
+							const nq = Math.max(Number(e.target.value), 1);
+							setQuestionNum(nq);
+						}}
+					/>
+					<Button fullWidth type="submit" variant="contained">
+						Get Question
 					</Button>
 				</Stack>
 			</form>

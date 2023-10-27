@@ -1,7 +1,7 @@
 
-let arr = [[5, 2, 0, 0], [2, 5, 2, 0], [0, 2, 5, 2], [0, 0, 2, 5]];
+// let arr = [[5, 2, 0, 0], [2, 5, 2, 0], [0, 2, 5, 2], [0, 0, 2, 5]];
 
-let ans = [12, 17, 14, 7];
+// let ans = [12, 17, 14, 7];
 
 
 
@@ -38,4 +38,3 @@ export function Jacobi(A, B) {
 
     return x;
 }
-console.log(Jacobi(arr, ans));

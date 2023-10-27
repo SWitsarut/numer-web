@@ -6,7 +6,7 @@ import { gauss_jordan } from "../AXB/gauss-jordan.js";
 import { gauss } from "../AXB/gauss.js";
 import gauss_seidel from "../AXB/Gauss-seidel.js";
 import LU from "../AXB/LUdecomposition.js";
-import { Jacobi } from "../not finish/Jacobi.js";
+import { Jacobi } from "../AXB/Jacobi.js";
 
 
 const router = express.Router();
