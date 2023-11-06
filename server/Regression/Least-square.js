@@ -1,4 +1,4 @@
-import { Cramer } from "../AXB/Cramer";
+import { Cramer } from "../AXB/Cramer.js";
 
 // function Least_Square_Linear(x, y, targetX) {
 
@@ -50,8 +50,7 @@ function Least_Square_Polynomial(m, x, y, targetX) {
         }
         matrixB.push(sum);
     }
-    // console.log(matrix)
-    // console.log(matrixB)
+
     let a = Cramer(matrix, matrixB);
     let fx = 0;
     for (let i = 0; i < a.length; i++) {
@@ -62,9 +61,9 @@ function Least_Square_Polynomial(m, x, y, targetX) {
 
 
 
-function Least_Square_Multiple() {
-    let x = [[1, 0, 2, 3, 4, 2, 1], [0, 1, 4, 2, 1, 3, 6], [1, 3, 1, 2, 5, 3, 4]];
-    let y = [4, -5, -6, 0, -1, -7, -20];
+function Least_Square_Multiple(X, Y, targetX) {
+    let x = [...X];
+    let y = [...Y];
     let matrix = [];
     let n = x[0].length;
     for (let i = 0; i < x.length + 1; i++) {
@@ -85,7 +84,6 @@ function Least_Square_Multiple() {
         }
     }
 
-    console.log(matrix)
     let matrixB = [];
     for (let i = 0; i < x.length + 1; i++) {
         let sum = 0;
@@ -98,13 +96,21 @@ function Least_Square_Multiple() {
         }
         matrixB.push(sum);
     }
-    console.log(matrixB)
-    // return fx;
-    console.log(Cramer(matrix, matrixB))
+    const a = Cramer(matrix, matrixB)
+    let sum = a[0];
+    for (let i = 0; i < X.length; i++) {
+        sum += targetX[i] * a[i + 1];
+    }
+    return sum;
 }
 
 export { Least_Square_Polynomial, Least_Square_Multiple }
 // console.log(
+
 //     Least_Square_Linear(x, y, targetX),
 //     Least_Square_Polynomial(3, x, y, targetX)
 // )
+// let x = [[1, 0, 2, 3, 4, 2, 1], [0, 1, 4, 2, 1, 3, 6], [1, 3, 1, 2, 5, 3, 4]];
+// let y = [4, -5, -6, 0, -1, -7, -20];
+// let targetX = [3, 3, 3];
+// Least_Square_Multiple(x, y, targetX)

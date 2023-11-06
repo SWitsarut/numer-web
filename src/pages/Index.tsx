@@ -69,6 +69,7 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			description: "Jacobi method",
 		},
 	];
+
 	const interpolation: IndexCardProps[] = [
 		{
 			name: "Newton interpolation",
@@ -89,6 +90,18 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			name: "Spline(Quadratic)",
 			path: "/interpolation/spline-quadratic",
 			description: "Langange interpolation",
+		},
+	];
+	const regression: IndexCardProps[] = [
+		{
+			name: "Least Square",
+			path: "/regression",
+			description: "Least Square",
+		},
+		{
+			name: "Multiple Least Square",
+			path: "/mul-regression",
+			description: "Least Square",
 		},
 	];
 	const differentiation: IndexCardProps[] = [
@@ -133,6 +146,21 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			<h1>Interpolation</h1>
 			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
 				{interpolation?.map((card, index) => {
+					return (
+						<HubCard
+							key={index}
+							name={card.name}
+							path={card.path}
+							desciption={card.description}
+							navigate={navigate}
+						/>
+					);
+				})}
+			</Stack>
+			<Divider />
+			<h1>Regression</h1>
+			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
+				{regression?.map((card, index) => {
 					return (
 						<HubCard
 							key={index}

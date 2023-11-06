@@ -12,9 +12,14 @@ const router = express.Router();
 router.get("/diff/:id", (req, res) => {
     const { id } = req.params;
     console.log(id)
-    db.query(`select * from diff `, (err, result) => {
+    db.query(`SELECT * FROM diff WHERE id = (
+        SELECT MAX(id)
+        FROM diff
+        WHERE id <= ?
+    )
+    AND id >= 1;`, (err, result) => {
         if (err) {
-            res.status(500).json(result)
+            res.status(500).json({ error: "Internal Server Error" })
             return;
         }
         res.status(200).json(result);

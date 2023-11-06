@@ -14,6 +14,8 @@ import Page404 from "./pages/Page404";
 import Matrix from "./pages/linear equation/Matrix";
 import Interpolation from "./pages/Interpolation/Interpolation";
 import Diff from "./pages/Diff/Diff";
+import Least_Square from "./pages/Regression/Least_Square";
+import Mul_regression from "./pages/Regression/mul_regression";
 
 function App() {
 	const navigate = useNavigate();
@@ -89,6 +91,8 @@ function App() {
 									element={<Interpolation path={"spline-quadratic"} />}
 								/>
 							</Route>
+							<Route path="/regression" element={<Least_Square />} />
+							<Route path="/mul-regression" element={<Mul_regression />} />
 							<Route path="/diff" element={<Diff />} />
 							<Route path="*" element={<Page404 />} />
 						</Routes>
