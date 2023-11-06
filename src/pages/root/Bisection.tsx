@@ -1,4 +1,4 @@
-import React, { Component, RefObject } from "react";
+import { Component } from "react";
 import axios from "axios";
 import Plot from "react-plotly.js";
 
@@ -15,6 +15,7 @@ import {
 	TextField,
 } from "@mui/material";
 import { EvalFunction, compile } from "mathjs";
+import { BlockMath } from "react-katex";
 interface iterationData {
 	iteration: number;
 	xl: number;
@@ -201,7 +202,8 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 						layout={{ height: 500 }}
 					/>
 
-					<h2>{resData?.data}</h2>
+					{/* <h2>{resData?.data}</h2> */}
+					{resData ? <BlockMath>{`x=${resData?.data}`}</BlockMath> : null}
 					<TableContainer component={Paper}>
 						<Table sx={{ minWidth: 650 }} aria-label="simple table">
 							<TableHead>

@@ -11,6 +11,7 @@ import bodyParser from "body-parser"
 
 import roe from "./API router/root_of_equation.js";
 import linearEquation from "./API router/linear_equation.js"
+import diff from "./API router/differentiation.js"
 
 import { Langange } from "./interpolation/Langange.js";
 import { Newton_interpolation } from "./interpolation/newton.js";
@@ -26,9 +27,9 @@ app.use(apiTracker);
 app.use(requestTimeTracker)
 app.use(requestTimeout(3000));
 
+app.use(diff);
 app.use(roe);
 app.use(linearEquation)
-
 
 
 app.post("/langange", async (req, res) => {

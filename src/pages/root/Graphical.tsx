@@ -4,15 +4,16 @@ import { Button, Stack, TextField } from "@mui/material";
 import Plot from "react-plotly.js";
 import { compile } from "mathjs";
 import { GraphicalRes } from "../../type and interface/type";
+import { BlockMath } from "react-katex";
 
 function Graphical() {
 	document.title = "Graphical";
 	const [answerState, setAnwerState] = useState<GraphicalRes>();
 	const [isLoading, setLoading] = useState<boolean>();
 
-	const [question, setQuestion] = useState<string>();
-	const [xl, setXl] = useState<number>();
-	const [xr, setXr] = useState<number>();
+	const [question, setQuestion] = useState<string>("");
+	const [xl, setXl] = useState<number>(0);
+	const [xr, setXr] = useState<number>(0);
 
 	const [x, setX] = useState<number[]>();
 	const [y, setY] = useState<number[]>();
@@ -139,7 +140,7 @@ function Graphical() {
 				{isLoading ? (
 					<h2>Loading...</h2>
 				) : answerState?.data ? (
-					<h2>answer is {answerState?.data}</h2>
+					<BlockMath math={`x = ${answerState?.data}`} />
 				) : null}
 				<Plot
 					data={[

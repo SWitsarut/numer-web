@@ -3,6 +3,7 @@ import Index from "./pages/Index";
 import Navbar from "./Component/Navbar";
 import Box from "@mui/material/Box";
 import { Paper } from "@mui/material";
+import "katex/dist/katex.min.css";
 
 import Graphical from "./pages/root/Graphical";
 import Bisection from "./pages/root/Bisection";
@@ -12,6 +13,7 @@ import Secant from "./pages/root/Secant";
 import Page404 from "./pages/Page404";
 import Matrix from "./pages/linear equation/Matrix";
 import Interpolation from "./pages/Interpolation/Interpolation";
+import Diff from "./pages/Diff/Diff";
 
 function App() {
 	const navigate = useNavigate();
@@ -65,10 +67,7 @@ function App() {
 									path="lu-decomposition"
 									element={<Matrix path={"lu-decomposition"} />}
 								/>
-								<Route
-									path="jacobi"
-									element={<Matrix path={"jacobi"} />}
-								/>
+								<Route path="jacobi" element={<Matrix path={"jacobi"} />} />
 							</Route>
 							<Route
 								path="/interpolation"
@@ -90,7 +89,7 @@ function App() {
 									element={<Interpolation path={"spline-quadratic"} />}
 								/>
 							</Route>
-
+							<Route path="/diff" element={<Diff />} />
 							<Route path="*" element={<Page404 />} />
 						</Routes>
 					</Paper>

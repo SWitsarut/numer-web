@@ -1,6 +1,7 @@
 import { Box, TextField, Stack, Button } from "@mui/material";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { BlockMath } from "react-katex";
 
 type props = {
 	path: string;
@@ -78,56 +79,80 @@ function Matrix({ path }: props) {
 					<Box padding={"2em"} display={"flex"} justifyContent={"space-between"}>
 						<Box className="A">
 							<h3>A</h3>
-							{A.map((row, rowIndex) => {
-								return (
-									<Box
-										key={rowIndex}
-										width="100%"
-										display="flex"
-										justifyContent="space-around"
-										// gap="2em"
-									>
-										{row.map((_col, colIndex) => {
-											return (
-												<TextField
-													type="number"
-													sx={{ maxWidth: 120 }}
-													key={`${rowIndex},${colIndex}`}
-													value={A[rowIndex][colIndex]}
-													label={`a${rowIndex}${colIndex}`}
-													onChange={(e) => {
-														const newValue = Number(e.target.value);
-														handleMatrixChange(
-															rowIndex,
-															colIndex,
-															newValue
-														);
-													}}
-												/>
-											);
-										})}
-									</Box>
-								);
-							})}
+							<Box display={"flex"} flexDirection={"column"} gap={2}>
+								{A.map((row, rowIndex) => {
+									return (
+										<Box
+											key={rowIndex}
+											width="100%"
+											display="flex"
+											justifyContent="space-around"
+											gap={2}
+										>
+											{row.map((_col, colIndex) => {
+												return (
+													<TextField
+														type="number"
+														sx={{ maxWidth: 120 }}
+														key={`${rowIndex},${colIndex}`}
+														value={A[rowIndex][colIndex]}
+														label={`a${rowIndex}${colIndex}`}
+														onChange={(e) => {
+															const newValue = Number(e.target.value);
+															handleMatrixChange(
+																rowIndex,
+																colIndex,
+																newValue
+															);
+														}}
+													/>
+												);
+											})}
+										</Box>
+									);
+								})}
+							</Box>
 						</Box>
-						<Box minWidth={"1em"}></Box>
-						<Box className="B" display={"flex"} flexDirection={"column"}>
+						<Box>
+							<h3>X</h3>
+							<Box
+								display={"flex"}
+								gap={2}
+								padding={"0 1em"}
+								flexDirection={"column"}
+							>
+								{B.map((_value, colIndex) => {
+									return (
+										<TextField
+											type="number"
+											sx={{ maxWidth: 120 }}
+											key={`${colIndex}`}
+											label={`x${colIndex}`}
+											disabled
+										/>
+									);
+								})}
+							</Box>
+						</Box>
+						<Box>
 							<h3>B</h3>
-							{B.map((value, colIndex) => {
-								return (
-									<TextField
-										type="number"
-										sx={{ maxWidth: 120 }}
-										key={`${colIndex}`}
-										value={value}
-										label={`b${colIndex}`}
-										onChange={(e) => {
-											const newValue = Number(e.target.value);
-											handleBChange(colIndex, newValue);
-										}}
-									/>
-								);
-							})}
+							<Box display={"flex"} gap={2} flexDirection={"column"}>
+								{B.map((value, colIndex) => {
+									return (
+										<TextField
+											type="number"
+											sx={{ maxWidth: 120 }}
+											key={`${colIndex}`}
+											value={value}
+											label={`b${colIndex}`}
+											onChange={(e) => {
+												const newValue = Number(e.target.value);
+												handleBChange(colIndex, newValue);
+											}}
+										/>
+									);
+								})}
+							</Box>
 						</Box>
 					</Box>
 					<Button variant="contained" type="submit">
@@ -140,8 +165,8 @@ function Matrix({ path }: props) {
 					e.preventDefault();
 					axios
 						.get(
-							`http://localhost:8080/${
-								path == "jacobi" ? "jacobi" : "cramer"
+							`http://localhost:8080/linearEquation/${
+								path == "jacobi" || path == "gauss-seidel" ? "jacobi" : "cramer"
 							}/${questionNum}`
 						)
 						.then((e) => {
@@ -174,9 +199,7 @@ function Matrix({ path }: props) {
 				<h3>Answer</h3>
 				<Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
 					{ans?.map((value, index) => (
-						<h4 key={index}>
-							x{index} = {value}
-						</h4>
+						<BlockMath key={index} math={`x_{${index}} = ${value}`} />
 					))}
 				</Box>
 			</Stack>

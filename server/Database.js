@@ -8,4 +8,3 @@ const db = mysql2.createConnection({
 })
 
 export default db
-

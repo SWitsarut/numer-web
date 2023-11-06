@@ -11,7 +11,7 @@ import { Jacobi } from "../AXB/Jacobi.js";
 
 const router = express.Router();
 
-router.get("/:method/:id", (req, res) => {
+router.get("/linearEquation/:method/:id", (req, res) => {
     const { id, method } = req.params;
     db.query("SELECT * FROM `linear-equation` WHERE `method` = ? AND `id` = ?", [method, id], (err, result) => {
         if (err) {
@@ -66,5 +66,6 @@ router.post("/jacobi", (req, res) => {
     const x = Jacobi(A, B);
     res.status(200).json(x);
 })
+
 
 export default router;

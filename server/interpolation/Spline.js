@@ -6,7 +6,7 @@ import { gauss_jordan } from '../AXB/gauss-jordan.js'
 export function LinearSpline(x, y, targetX) {   
     let X = [...x];
     let Y = [...y];
-    let f = [];
+    let f = []; 
 
     for (let i = 1; i < X.length; i++) {
         const fi = Y[i - 1] + (((Y[i] - Y[i - 1]) / (X[i] - X[i - 1])) * (targetX - X[i - 1]));

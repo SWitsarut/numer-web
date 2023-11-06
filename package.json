@@ -25,6 +25,7 @@
     "plotly.js": "^2.26.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-katex": "^3.0.1",
     "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.16.0",
     "serverless-mysql": "^1.5.5"
@@ -35,6 +36,7 @@
     "@types/node": "^20.6.4",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-katex": "^3.0.2",
     "@types/react-plotly.js": "^2.6.1",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",

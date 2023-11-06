@@ -91,6 +91,13 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			description: "Langange interpolation",
 		},
 	];
+	const differentiation: IndexCardProps[] = [
+		{
+			name: "First derivative",
+			path: "/diff",
+			description: "find diff",
+		},
+	];
 	return (
 		<Stack spacing={2}>
 			<h1>Root of equation</h1>
@@ -126,6 +133,21 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			<h1>Interpolation</h1>
 			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
 				{interpolation?.map((card, index) => {
+					return (
+						<HubCard
+							key={index}
+							name={card.name}
+							path={card.path}
+							desciption={card.description}
+							navigate={navigate}
+						/>
+					);
+				})}
+			</Stack>
+			<Divider />
+			<h1>Differentiation</h1>
+			<Stack direction={"row"} flexWrap={"wrap"} gap={2} sx={{ justifyContent: "center" }}>
+				{differentiation?.map((card, index) => {
 					return (
 						<HubCard
 							key={index}

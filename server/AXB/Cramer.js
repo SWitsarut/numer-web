@@ -56,8 +56,8 @@ export function Cramer(matrix, vector) {
         }
         solutions.push(solution);
     }
-    console.log("data", solutions)
-    console.log(solutions)
+    // console.log("data", solutions)
+    // console.log(solutions)
     return solutions;
 }
 
