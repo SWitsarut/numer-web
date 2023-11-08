@@ -19,3 +19,5 @@ export default function newtonRaphson(question, x0) {
 	console.log({ x: xi_1, iteration });
 	return { data: xi_1, iterationData };
 }
+
+// newtonRaphson("",2)

@@ -18,19 +18,23 @@ router.get("/regression/:id", (req, res) => {
     })
 });
 
-router.get("/mulRegression/:id", (req, res) => {
+router.get("/mul-regression/:id", (req, res) => {
     const { id } = req.params;
-    db.query(`SELECT * FROM mul-regression WHERE id = (
-        SELECT MAX(id)
-        FROM mul-regression
-        WHERE id <= ?
-    )
-    AND id >= 1;`, [id], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: "Internal Server Error" })
-        }
-        res.status(200).json(result);
-    })
+    db.query(
+        //     `SELECT * FROM "mul-regression" WHERE id = (
+        //     SELECT MAX(id)
+        //     FROM "mul-regression"
+        //     WHERE id <= ?
+        // )
+        // AND id >= 1; `
+        "SELECT * FROM `mul-regression` WHERE `id` = ? OR `id` = (SELECT `id` FROM `mul-regression` ORDER BY ABS(`id` - ?) LIMIT 1);"
+        // "SELECT * FROM `mul-regression` WHERE `id` = ?"
+        , [id, id], (err, result) => {
+            if (err) {
+                res.status(500).json({ error: err })
+            }
+            res.status(200).json(result);
+        })
 })
 
 router.post("/regression", (req, res) => {
@@ -43,8 +47,8 @@ router.post("/regression", (req, res) => {
 
 router.post("/mul-regression", (req, res) => {
     const { x, y, targetX } = req.body;
-    res.status(200).json(Least_Square_Multiple(x, y, targetX))
-    res.status(500).json({ error: "Internal Server Error" })
+    const answer = Least_Square_Multiple(x, y, targetX);
+    res.status(200).json({ answer, targetX })
 })
 
 

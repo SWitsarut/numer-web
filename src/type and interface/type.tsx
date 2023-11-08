@@ -23,7 +23,7 @@ type SecantIter = {
 
 export type SecantRes = {
 	data: string;
-	iterationData: SecantIter;
+	iterationData: SecantIter[];
 };
 
 export type EquationMethods =

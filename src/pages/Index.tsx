@@ -17,6 +17,11 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 			description: "root of equation by bisection",
 		},
 		{
+			name: "false-position",
+			path: "/root/false-position",
+			description: "root of equation by false-position",
+		},
+		{
 			name: "One Point Iteration",
 			path: "/root/one-point",
 			description: "root of equation by one point iteration",
@@ -106,7 +111,7 @@ function Index({ navigate }: { navigate: NavigateFunction }) {
 	];
 	const differentiation: IndexCardProps[] = [
 		{
-			name: "First derivative",
+			name: "Derivative",
 			path: "/diff",
 			description: "find diff",
 		},

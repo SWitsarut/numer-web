@@ -1,6 +1,5 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import axios from "axios";
-import { number } from "mathjs";
 import { useEffect, useState } from "react";
 import { BlockMath } from "react-katex";
 

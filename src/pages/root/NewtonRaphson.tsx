@@ -15,8 +15,7 @@ import {
 
 type iterationData = {
 	iteration: number;
-	xi: number;
-	xi_1: number;
+	x: number;
 };
 
 type OnePointRes = {
@@ -40,8 +39,8 @@ function NewtomRaphson() {
 			const data = await axios.post<OnePointRes>(`http://localhost:8080/newton-raphson`, {
 				question,
 				x0: Number(x0),
-			});
-			console.log(data);
+			});	
+			console.log(data.data);
 			setAnwerState(data.data);
 			setLoading(false);
 		} catch (err) {
@@ -122,8 +121,7 @@ function NewtomRaphson() {
 						<TableHead>
 							<TableRow>
 								<TableCell>Iteration</TableCell>
-								<TableCell align="center">xi</TableCell>
-								<TableCell align="center">xi+1</TableCell>
+								<TableCell align="center">x</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -138,8 +136,7 @@ function NewtomRaphson() {
 										<TableCell component="th" scope="row">
 											{data.iteration}
 										</TableCell>
-										<TableCell align="center">{data.xi}</TableCell>
-										<TableCell align="center">{data.xi_1}</TableCell>
+										<TableCell align="center">{data.x}</TableCell>
 									</TableRow>
 								)
 							)}

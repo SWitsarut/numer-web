@@ -24,7 +24,7 @@ interface iterationData {
 	fxm: number;
 	xr: number;
 	fxr: number;
-	error: number;
+	error?: number;
 }
 
 interface BisectionRes {
@@ -38,10 +38,8 @@ type MyState = {
 	question: string | undefined;
 	questionNumber: number;
 	resData: BisectionRes | null;
-	err?: number[];
-	errY?: number[];
 };
-class Bisection extends Component<NonNullable<unknown>, MyState> {
+class FalsePosition extends Component<NonNullable<unknown>, MyState> {
 	// xl: RefObject<HTMLInputElement> = React.createRef();
 	// question: RefObject<HTMLInputElement> = React.createRef();
 	// xr: RefObject<HTMLInputElement> = React.createRef();
@@ -56,8 +54,6 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 			question: "",
 			questionNumber: 1,
 			resData: null,
-			err: [],
-			errY: [],
 		};
 	}
 
@@ -75,28 +71,15 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 		}
 
 		try {
-			const response = await axios.post<BisectionRes>(`http://localhost:8080/bisection`, {
-				question,
-				xl,
-				xr,
-			});
-			const newErr = [];
-			for (let i = 0; i < response.data.iterationData.length; i++) {
-				newErr.push(response.data.iterationData[i].error);
-			}
-			console.log(newErr);
-			const step = Math.abs(xl - xr) / response.data.iterationData.length;
-			// console.log(step);
-			const newErrY = [];
-			// for (let i = xl; i < xr - step; i += step) {
-			// 	newErrY.push(i);
-			// }
-			for (let i = 0; i < response.data.iterationData.length; i++) {
-				newErrY.push(i);
-			}
-			console.log(newErrY);
-			this.setState({ err: newErr });
-			this.setState({ errY: newErrY });
+			const response = await axios.post<BisectionRes>(
+				`http://localhost:8080/false-position`,
+				{
+					question,
+					xl,
+					xr,
+				}
+			);
+
 			this.setState({ resData: response.data });
 			console.log(response.data);
 		} catch (error) {
@@ -111,12 +94,11 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 		const { xl } = this.state as { xl: number };
 		const { xr } = this.state as { xr: number };
 		const { questionNumber } = this.state as { questionNumber: number };
-		const { err } = this.state as { err: number[] };
-		const { errY } = this.state as { errY: number[] };
-		document.title = "Bisection";
+
+		document.title = "False-Position";
 		return (
 			<Stack sx={{ gap: 2 }}>
-				<h2>Bisection</h2>
+				<h2>False-Position</h2>
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
@@ -200,13 +182,6 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 								showlegend: false,
 							},
 							{
-								name: "graph",
-								y: err,
-								x: errY,
-								marker: { color: "yellow" },
-								showlegend: false,
-							},
-							{
 								name: "answer",
 								type: "scatter",
 								mode: "lines",
@@ -230,10 +205,7 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 						]}
 						layout={{ height: 500 }}
 					/>
-					<Plot
-						data={[{ name: "GraphErr", x: errY, y: err, marker: { color: "red" } }]}
-						layout={{ height: 500 }}
-					/>
+
 					{/* <h2>{resData?.data}</h2> */}
 					{resData ? <BlockMath>{`x=${resData?.data}`}</BlockMath> : null}
 					<TableContainer component={Paper}>
@@ -281,4 +253,4 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 	}
 }
 
-export default Bisection;
+export default FalsePosition;

@@ -101,6 +101,7 @@ function Least_Square_Multiple(X, Y, targetX) {
     for (let i = 0; i < X.length; i++) {
         sum += targetX[i] * a[i + 1];
     }
+    // console.log(sum)
     return sum;
 }
 

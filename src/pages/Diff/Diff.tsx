@@ -2,6 +2,7 @@ import { Button, FormControl, InputLabel, MenuItem, Select, Stack, TextField } f
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BlockMath } from "react-katex";
+import { compile, derivative as diff } from "mathjs";
 
 enum derivativeEnum {
 	first = "first",
@@ -32,9 +33,28 @@ function Diff() {
 		document.title = "Derivative";
 	}, []);
 
+	const [realDiff, setrealDiff] = useState<number | undefined>(undefined);
+
+	function getRealDiff(question: string, point: number): number {
+		let q = question;
+		let order: number;
+		if (derivative == derivativeEnum.first) {
+			order = 1;
+		} else {
+			order = 2;
+		}
+		for (let i = 0; i < order + 1; i++) {
+			q = diff(q, "x").toString();
+		}
+		const fn = compile(q);
+		const answer = fn.evaluate({ x: point });
+		return answer;
+	}
+
 	function getQuestion() {
 		axios.get(`http://localhost:8080/diff/${id}`).then((e) => {
 			const [data] = e.data;
+			console.log(data);
 			setQuestion(data.question);
 			setX(data.x);
 			setH(data.h);
@@ -57,6 +77,7 @@ function Diff() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					cal();
+					setrealDiff(getRealDiff(question, x));
 					console.log({ derivative, method, question, x, h });
 				}}
 			>
@@ -147,7 +168,6 @@ function Diff() {
 			<form
 				onSubmit={(e) => {
 					e.preventDefault();
-					console.log("hello");
 					getQuestion();
 				}}
 			>
@@ -168,7 +188,14 @@ function Diff() {
 				</Stack>
 			</form>
 			{ans !== undefined && ans !== null ? (
-				<BlockMath math={`f^{${"\\prime".repeat(ans.derivative)}}(x) = ${ans?.answer}`} />
+				<Stack spacing={2}>
+					<BlockMath
+						math={`real ; f^{${"\\prime".repeat(ans.derivative)}}(x) = ${realDiff}`}
+					/>
+					<BlockMath
+						math={`f^{${"\\prime".repeat(ans.derivative)}}(x) = ${ans?.answer}`}
+					/>
+				</Stack>
 			) : null}
 		</Stack>
 	);

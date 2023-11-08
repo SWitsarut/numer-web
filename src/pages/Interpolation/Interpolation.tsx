@@ -13,6 +13,7 @@ function Interpolation({ path }: props) {
 	const [answer, setAnswer] = useState<number>();
 	const targetX = useRef<HTMLInputElement>();
 
+	const [questionNum, setQuestionNum] = useState<number>(1);
 	const fetchAnswer = () => {
 		axios
 			.post(`http://localhost:8080/${path}`, {
@@ -109,7 +110,7 @@ function Interpolation({ path }: props) {
 										label={`y${index}`}
 										onChange={(e) => {
 											const newValue = Number(e.target.value);
-											setX((prev) => {
+											setY((prev) => {
 												const newB = prev.map((value, i) =>
 													i === index ? newValue : value
 												);
@@ -131,13 +132,41 @@ function Interpolation({ path }: props) {
 					<Button variant="contained" type="submit">
 						Submit
 					</Button>
-					<h2>
-						{answer != null || answer != undefined
-							? `f(${targetX.current?.value}) = ${answer}`
-							: null}
-					</h2>
 				</Stack>
 			</form>
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					axios
+						.get(`http://localhost:8080/interpolation/${path}/${questionNum}`)
+						.then((e) => {
+							console.log(e.data);
+						});
+				}}
+			>
+				<Stack spacing={2} direction={"row"}>
+					<TextField
+						fullWidth
+						label="เลขข้อ"
+						value={questionNum}
+						type="number"
+						onChange={(e) => {
+							const numQN = Math.max(Number(e.target.value), 1);
+							setQuestionNum(numQN);
+						}}
+					/>
+					<Button type="submit" variant="contained" fullWidth>
+						GET QUESTION
+					</Button>
+				</Stack>
+			</form>
+			<Stack alignItems={"center"}>
+				<h2>
+					{answer != null || answer != undefined
+						? `f(${targetX.current?.value}) = ${answer}`
+						: null}
+				</h2>
+			</Stack>
 		</Stack>
 	);
 }

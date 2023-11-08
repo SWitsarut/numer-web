@@ -11,13 +11,14 @@ import bodyParser from "body-parser"
 
 import roe from "./API router/root_of_equation.js";
 import linearEquation from "./API router/linear_equation.js"
-import diff from "./API router/differentiation.js"
+// import diff from "./API router/differentiation.js"
 import regression from "./API router/regression.js"
-
+import test from "./API router/backtest1.js"
 
 import { Langange } from "./interpolation/Langange.js";
 import { Newton_interpolation } from "./interpolation/newton.js";
 import { LinearSpline, QuadraticSpline } from "./interpolation/Spline.js";
+import db from "./Database.js";
 
 
 const app = express();
@@ -29,10 +30,23 @@ app.use(apiTracker);
 app.use(requestTimeTracker)
 app.use(requestTimeout(3000));
 
-app.use(diff);
+// app.use(diff);
 app.use(roe);
 app.use(linearEquation)
 app.use(regression)
+app.use(test)
+
+app.get("/interpolation/:method/:id", (req, res) => {
+    const { method, id } = req.params;
+    db.query("select * from interpolation where id = ? and method = ?", [id, method], (err, result) => {
+        if (err) {
+            res.status(500).json(err)
+            return
+        } else {
+            res.status(200).json(result);
+        }
+    })
+})
 
 
 app.post("/langange", async (req, res) => {

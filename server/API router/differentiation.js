@@ -4,7 +4,7 @@ import db from "../Database.js";
 import { firstForward, firstBackward, firstCentral } from "../Differentiation/first.js";
 import { secondBackward, secondCentral, secondForward } from "../Differentiation/second.js";
 
-
+import { getRealValue } from "../Differentiation/realValue.js";
 
 const router = express.Router();
 
@@ -12,14 +12,9 @@ const router = express.Router();
 router.get("/diff/:id", (req, res) => {
     const { id } = req.params;
     console.log(id)
-    db.query(`SELECT * FROM diff WHERE id = (
-        SELECT MAX(id)
-        FROM diff
-        WHERE id <= ?
-    )
-    AND id >= 1;`, (err, result) => {
+    db.query("select * from diff where id = ?", [id], (err, result) => {
         if (err) {
-            res.status(500).json({ error: "Internal Server Error" })
+            res.status(500).json({ error: err })
             return;
         }
         res.status(200).json(result);

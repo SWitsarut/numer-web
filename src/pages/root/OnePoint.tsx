@@ -38,8 +38,8 @@ function OnePoint() {
 
 	const [questionNum, setQuestionNum] = useState<number>(1);
 
-	const x: number[] = [];
-	const y: number[] = [];
+	// const [x, setX] = useState<number[]>();
+	// const [y, setY] = useState<number[]>();
 
 	const [xState, setXstate] = useState<number[]>();
 	const [yState, setYstate] = useState<number[]>();
@@ -88,15 +88,17 @@ function OnePoint() {
 		console.log(minXi_1);
 		// const strQuestion: string = question;
 		const fn = compile(question);
-		const max = maxXi_1 || 0;
-		x.length = 0;
-		y.length = 0;
+		const max = maxXi_1 || 10;
+		// setX([]);
+		// setY([]);
+		const newX = [];
+		const newY = [];
 		for (let i = minXi_1 || 0; i < max; i += 0.1) {
-			x.push(i);
-			y.push(fn.evaluate({ x: i }));
+			newX.push(i);
+			newY.push(fn.evaluate({ x: i }));
 		}
-		setXstate(x);
-		setYstate(y);
+		setXstate(newX);
+		setYstate(newY);
 	}
 
 	return (
@@ -143,10 +145,11 @@ function OnePoint() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					axios.get(`http://localhost:8080/onepoint/${questionNum}`).then((e) => {
-						// console.log(e?.data);
-						const { data } = e;
-						setQuestion(data.question || "");
-						setX0(data.x0 || 1);
+						console.log(e?.data);
+						const data = e.data;
+
+						setQuestion(data?.question);
+						setX0(data?.x0);
 					});
 				}}
 			>

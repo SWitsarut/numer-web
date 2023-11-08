@@ -6,6 +6,7 @@ import OnePoint from "../root of equation/One-point.js";
 import newtonRaphson from "../root of equation/newton-raphson.js";
 import Secant from "../root of equation/Secant.js";
 import db from '../Database.js';
+import falsePosition from '../root of equation/false-position.js';
 
 const router = express.Router();
 
@@ -63,6 +64,12 @@ router.post("/bisection", (req, res) => {
     res.status(200).json(response);
 })
 
+router.post("/false-position", (req, res) => {
+    const { question, xl, xr } = req.body;
+    const response = falsePosition(question, Number(xl), Number(xr))
+    res.status(200).json(response);
+})
+
 
 
 router.get("/onepoint/:id", (req, res) => {
@@ -94,17 +101,9 @@ router.post("/onepoint", (req, res) => {
 
 router.get("/newton-raphson/:id", (req, res) => {
     const { id } = req.params;
-    db.query(`SELECT *
-    FROM newton-raphson
-    WHERE id = (
-        SELECT MAX(id)
-        FROM newton-raphson
-        WHERE id <= ?
-    )
-    AND id >= 1;
-    `, [id], (err, result) => {
+    db.query("SELECT * FROM `newton-raphson` WHERE `id` = ?", [id], (err, result) => {
         if (err) {
-            res.status(500).json({ error: "Internal Server Error" })
+            res.status(500).json({ error: err })
             return;
         }
         const [question] = result;

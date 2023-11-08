@@ -15,7 +15,9 @@ import Matrix from "./pages/linear equation/Matrix";
 import Interpolation from "./pages/Interpolation/Interpolation";
 import Diff from "./pages/Diff/Diff";
 import Least_Square from "./pages/Regression/Least_Square";
-import Mul_regression from "./pages/Regression/mul_regression";
+import Mul_regression from "./pages/Regression/Mul_regression";
+import FalsePosition from "./pages/root/False";
+import Test from "./pages/Test";
 
 function App() {
 	const navigate = useNavigate();
@@ -34,7 +36,7 @@ function App() {
 					<Paper sx={{ padding: 3, minHeight: "100vh" }} elevation={1}>
 						<Routes>
 							<Route path="/" element={<Index navigate={navigate} />} />
-
+							<Route path="/Test" element={<Test />} />
 							<Route
 								path="/root"
 								element={
@@ -42,6 +44,7 @@ function App() {
 								}
 							>
 								<Route path="bisection" element={<Bisection />} />
+								<Route path="false-position" element={<FalsePosition />} />
 								<Route path="graphical" element={<Graphical />} />
 								<Route path="one-point" element={<OnePoint />} />
 								<Route path="newton-raphson" element={<NewtomRaphson />} />

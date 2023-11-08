@@ -1,9 +1,21 @@
-import { Button, Stack, TextField } from "@mui/material";
+import {
+	Button,
+	Paper,
+	Stack,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	TextField,
+} from "@mui/material";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { compile } from "mathjs";
 import { SecantRes } from "../../type and interface/type";
 import Plot from "react-plotly.js";
+import { BlockMath } from "react-katex";
 
 export default function Secant() {
 	document.title = "Secant";
@@ -26,7 +38,7 @@ export default function Secant() {
 				x1: Number(x1),
 			})
 			.then((e) => {
-				console.log(e);
+				console.log(e.data);
 				setAns(e?.data);
 			});
 	};
@@ -40,14 +52,12 @@ export default function Secant() {
 			tempx.push(index);
 			tempy.push(fx);
 		}
-		setX(() => {
+		setX(() => {www
 			return tempx;
 		});
 		setY(() => {
 			return tempy;
 		});
-		console.log(x);
-		console.log(y);
 	};
 	return (
 		<Stack spacing={2}>
@@ -96,10 +106,11 @@ export default function Secant() {
 				onSubmit={(e) => {
 					e.preventDefault();
 					axios.get(`http://localhost:8080/secant/${questionNum}`).then((e) => {
-						// console.log(e?.data);
+						console.log(e?.data);
 						const { data } = e;
-						setQuestion(data.question || "");
-						setX0(data.x0 || 1);
+						setQuestion(data.question);
+						setX0(data.x0);
+						setX1(data.x1);
 					});
 				}}
 			>
@@ -119,11 +130,43 @@ export default function Secant() {
 					</Button>
 				</Stack>
 			</form>
-			<h2>{ans?.data}</h2>
+			{ans !== undefined && ans !== null ? (
+				<BlockMath math={`answer = ${ans?.data}`} />
+			) : null}
+
 			<Plot
 				data={[{ x: x, y: y, marker: { color: "red" }, showlegend: false }]}
 				layout={{ height: 500 }}
 			/>
+			<TableContainer component={Paper}>
+				<Table sx={{ minWidth: 650 }} aria-label="simple table">
+					<TableHead>
+						<TableRow>
+							<TableCell>Iteration</TableCell>
+							<TableCell align="center">xi</TableCell>
+							<TableCell align="center">xi+1</TableCell>
+							<TableCell align="center">xi+2</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{ans?.iterationData?.map((value, index) => (
+							<TableRow
+								key={index}
+								sx={{
+									"&:last-child td, &:last-child th": { border: 0 },
+								}}
+							>
+								<TableCell component="th" scope="row">
+									{value?.iteration}
+								</TableCell>
+								<TableCell align="center">{value.xi}</TableCell>
+								<TableCell align="center">{value.xi_1}</TableCell>
+								<TableCell align="center">{value.xi_2}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
 		</Stack>
 	);
 }

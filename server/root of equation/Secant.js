@@ -1,7 +1,7 @@
 import { compile } from "mathjs";
 
 export default function Secant(question, x1, x2) {
-    
+
 
     const fn = compile(question);
     let xi;
