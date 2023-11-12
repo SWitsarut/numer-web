@@ -42,9 +42,6 @@ type MyState = {
 	errY?: number[];
 };
 class Bisection extends Component<NonNullable<unknown>, MyState> {
-	// xl: RefObject<HTMLInputElement> = React.createRef();
-	// question: RefObject<HTMLInputElement> = React.createRef();
-	// xr: RefObject<HTMLInputElement> = React.createRef();
 	GraphX: number[] = [];
 	GraphY: number[] = [];
 	constructor(props: NonNullable<unknown>) {
@@ -69,7 +66,6 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 
 	getData = async (question: string, xl: number, xr: number): Promise<void> => {
 		if (!question || isNaN(xl) || isNaN(xr)) {
-			// Input validation
 			alert("Please enter valid values.");
 			return;
 		}
@@ -86,11 +82,7 @@ class Bisection extends Component<NonNullable<unknown>, MyState> {
 			}
 			console.log(newErr);
 			const step = Math.abs(xl - xr) / response.data.iterationData.length;
-			// console.log(step);
 			const newErrY = [];
-			// for (let i = xl; i < xr - step; i += step) {
-			// 	newErrY.push(i);
-			// }
 			for (let i = 0; i < response.data.iterationData.length; i++) {
 				newErrY.push(i);
 			}
