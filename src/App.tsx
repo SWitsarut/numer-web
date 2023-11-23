@@ -10,7 +10,6 @@ import Bisection from "./pages/root/Bisection";
 import OnePoint from "./pages/root/OnePoint";
 import NewtomRaphson from "./pages/root/NewtonRaphson";
 import Secant from "./pages/root/Secant";
-import Page404 from "./pages/Page404";
 import Matrix from "./pages/linear equation/Matrix";
 import Interpolation from "./pages/Interpolation/Interpolation";
 import Diff from "./pages/Diff/Diff";
@@ -97,7 +96,6 @@ function App() {
 							<Route path="/regression" element={<Least_Square />} />
 							<Route path="/mul-regression" element={<Mul_regression />} />
 							<Route path="/diff" element={<Diff />} />
-							<Route path="*" element={<Page404 />} />
 						</Routes>
 					</Paper>
 				</Box>
